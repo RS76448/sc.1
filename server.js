@@ -31,6 +31,6 @@ app.set("view engine", "ejs")
 
 app.use('/fn',fitnessRouter)
 
-app.listen(6000,()=>{
+app.listen(7000,()=>{
     console.log("server started")
 })
