@@ -1,6 +1,7 @@
 const express=require("express");
 const app=express()
 const cors=require("cors")
+app.use(cors());
 const path=require("path")
 const bodyParser = require('body-parser');
 app.use(bodyParser.json())
@@ -8,7 +9,7 @@ app.use(express.json({limit: '50mb'}));
 app.use(express.urlencoded({limit: '50mb', extended: true, parameterLimit: 50000}));
 app.use(express.static(path.join(__dirname, "./src/views")));
 const fitnessRouter = require("./src/fitness/fitness.router");
-// app.use(cors());
+
 app.set("view engine", "ejs")
 
 
@@ -31,6 +32,6 @@ app.set("view engine", "ejs")
 
 app.use('/fn',fitnessRouter)
 
-app.listen(8000,'0.0.0.0',()=>{
+app.listen(8001,'0.0.0.0',()=>{
     console.log("server started")
 })
