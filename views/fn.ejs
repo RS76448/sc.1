@@ -73,7 +73,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         function generatereport() {
-           
+
             let startdate = $("#startdate").val();
             let daysoptions = $("#daysoptions").val();
             let comboselem = $("#combos").val();
@@ -91,15 +91,17 @@
             fetch(`<%base_url%>/fn/generatereport`, requestOptions)
                 .then(res => res.json())
                 .then((data) => {
-
+                    if ($.fn.DataTable.isDataTable('#jsonTable')) {
+                        $('#jsonTable').DataTable().destroy();
+                    }
                     const jsonData = data
                     // somedata = Object.keys(jsonData).map(key => console.log(key))
                     // console.log(somedata)
                     // Initialize DataTables
                     const dataTable = $('#jsonTable').DataTable({
                         columns: [
-                        { data: 'newweek', title: 'Week' },
-                     
+                            { data: 'newweek', title: 'Week' },
+
                             { data: 'newdate', title: 'Date' },
                             { data: 'newday', title: 'Day' },
                             { data: 'totalquota', title: 'Total Quota for week' },
@@ -111,11 +113,11 @@
                         ]
                     });
                     // Clear the existing table data
-                   
+
 
                     // Loop through each alldates object and add its weekdates to the table
                     jsonData.alldates.forEach(dateObj => {
-                       
+
                         dataTable.rows.add(dateObj.weekdates).draw();
                     });
                     // dataTable.destroy();
