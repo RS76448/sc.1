@@ -12,7 +12,7 @@ function getNextCycleDate(inputDate, combosArray) {
     else {
         nextCycleDate.setDate(nextCycleDate.getDate() + daysUntilNextCycle);
     }
-
+    console.log("nextCycleDate", nextCycleDate)
     return nextCycleDate;
 }
 

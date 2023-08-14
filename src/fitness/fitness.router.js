@@ -5,4 +5,5 @@ router.get('/',Fitnesscontroller.renderFn)
 router.get('/fetchoptions/:days',Fitnesscontroller.fetchoptions)
 router.post('/generatereport',Fitnesscontroller.generatereport)
 router.get('/addSchedule',Fitnesscontroller.addSchedule)
+router.get('/fetchdaysoptionvalue/:dayscode',Fitnesscontroller.fetchdaysoptionvalue)
 module.exports=router

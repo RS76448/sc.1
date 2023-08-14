@@ -23,7 +23,8 @@ sequelize.authenticate()
     console.error('Unable to connect to the database:', err);
   });
 let models = [
-    require("../models/running_schedule.js")
+    require("../models/running_schedule.js"),
+    require("../models/daysoptions.js"),
 ]
 
 // Initialize models

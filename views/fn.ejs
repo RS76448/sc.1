@@ -47,12 +47,15 @@
         <div class="form-group row">
             <label for="optionsDropdown" class="col-sm-3 col-form-label">Select Options:</label>
             <div class="col-sm-6">
-                <select class="form-control" name="selectedOption" id="combos">
+                <select class="form-control" name="selectedOption" id="combos" onchange="fetchdaysoptionvalue()">
+                    <option value="null">Please select a value</option>
                     <option>Please select</option>
                 </select>
             </div>
         </div>
-
+        <div class="form-group row">
+            <span class="col-sm-6" id="optionsvalue" style="font-size: small;"></span>
+        </div >
         <div class="form-group row">
             <div class="col-sm-9 offset-sm-3">
                 <button onclick="generatereport()" class="btn btn-primary" id="generateButton">Generate Report</button>
@@ -136,10 +139,11 @@
         { data: 'newday', title: 'Day' },
         { data: 'totalquota', title: 'Total Quota for week' },
         { data: 'quota1', title: 'long_workout' },
-        { data: 'quota2', title: 'short_workout_1' },
-        { data: 'quota3', title: 'short_workout_2' },
-        { data: 'quota4', title: 'medium_workout_1' },
-        { data: 'quota5', title: 'medium_workout_2' }
+        
+        { data: 'quota2', title: 'medium_workout_1' },
+        { data: 'quota3', title: 'medium_workout_2' },
+        { data: 'quota4', title: 'short_workout_1' },
+        { data: 'quota5', title: 'short_workout_2' },
     ]
 });
 
@@ -184,14 +188,37 @@ function generatereport() {
                 .then(res => res.json())
                 .then((data) => {
                     comboselem.empty()
-                    data?.options?.map((option) => {
+                    data?.datatosend?.map((option,index) => {
 
                         console.log(option)
-
+                        //set initial option value to empty
+                        if(index == 0){
+                            let newOption = `<option value="">Select</option>`;
+                            // Append the new option to the second select element
+                            comboselem.append(newOption);
+                        }
                         let newOption = `<option value="${option.id}">${option.value}</option>`;
                         // Append the new option to the second select element
                         comboselem.append(newOption);
                     })
+                })
+        }
+
+        function fetchdaysoptionvalue(){
+            let optionvalue = $("#daysoptions").val();
+            let comboselem = $("#combos").val();
+            // clear prev combos
+            // alert("comboselem: " + comboselem + ", optionvalue: " + optionvalue);
+
+
+            console.log(optionvalue)
+            fetch(`<%base_url%>/yofit/fetchdaysoptionvalue/${comboselem}`)
+                .then(res => res.json())
+                .then((data) => {
+                //    console.log(data)
+                //    console.log(data.value)
+                let text=`**${data.value}**`;
+                    $('#optionsvalue').html(data.value);
                 })
         }
     </script>
