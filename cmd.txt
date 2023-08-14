@@ -8,3 +8,6 @@ git remote add origin https://github.com/RS76448/sc.1.git
 fitapp
 fitappfitapp
 UPDATE user SET authentication_string=PASSWORD('fitnessapp') WHERE User='root';
+
+CREATE USER 'fitnessapp'@'localhost' IDENTIFIED WITH caching_sha2_password BY 'fitnessapp';
+GRANT CREATE, ALTER, DROP, INSERT, UPDATE, DELETE, SELECT, REFERENCES, RELOAD ON *.* TO 'fitnessapp'@'localhost' WITH GRANT OPTION;
