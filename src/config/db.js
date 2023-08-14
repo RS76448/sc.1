@@ -4,18 +4,13 @@ var db = {}
 
 const sequelize = new Sequelize('running_schedule', 'fitnessapp', 'Fitnessapp#121', {
     host: 'localhost',
-    port: 3306, 
+    port: 3306,
     dialect: 'mysql',
     define: {
         freezeTableName: true,
     },
-    pool: {
-        max: 5,
-        min: 0,
-        acquire: 30000,
-        idle: 10000,
-    },
 });
+
 
 sequelize.authenticate()
   .then(() => {

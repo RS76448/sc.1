@@ -14,3 +14,9 @@ GRANT CREATE, ALTER, DROP, INSERT, UPDATE, DELETE, SELECT, REFERENCES, RELOAD ON
 ALTER USER 'fitnessapp'@'localhost' IDENTIFIED WITH 'mysql_native_password' BY 'fitnessapp';
 FLUSH PRIVILEGES;
 CREATE USER 'fitnessapp'@'localhost' IDENTIFIED WITH 'mysql_native_password' BY 'Fitnessapp#121';
+
+
+DROP USER 'fitnessapp'@'localhost';
+CREATE USER 'fitnessapp'@'localhost' IDENTIFIED WITH 'mysql_native_password' BY 'Fitnessapp#121';
+GRANT ALL PRIVILEGES ON running_schedule.* TO 'fitnessapp'@'localhost';
+FLUSH PRIVILEGES;
