@@ -4,7 +4,7 @@ var db = {}
 
 const sequelize = new Sequelize('running_schedule', 'fitnessapp', 'fitnessapp', {
     host: 'localhost',
-    port: 3306, // Note: port should be a number, not a string
+    port: 3306, 
     dialect: 'mysql',
     define: {
         freezeTableName: true,
