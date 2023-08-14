@@ -89,7 +89,7 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(options)
             };
-            fetch(`<%base_url%>/fn/generatereport`, requestOptions)
+            fetch(`<%base_url%>/yofit/generatereport`, requestOptions)
                 .then(res => res.json())
                 .then((data) => {
                    
@@ -135,7 +135,7 @@
             // clear prev combos
 
             console.log(optionvalue)
-            fetch(`<%base_url%>/fn/fetchoptions/${optionvalue}`)
+            fetch(`<%base_url%>/yofit/fetchoptions/${optionvalue}`)
                 .then(res => res.json())
                 .then((data) => {
                     comboselem.empty()
