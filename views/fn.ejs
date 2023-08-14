@@ -99,10 +99,15 @@
                     const dataTable = $('#jsonTable').DataTable({
                         columns: [
                         { data: 'newweek', title: 'Week' },
-                        { data: 'totalquota', title: 'Total Quota for week' },
+                     
                             { data: 'newdate', title: 'Date' },
                             { data: 'newday', title: 'Day' },
-                            { data: 'quota', title: 'Quota' }
+                            { data: 'totalquota', title: 'Total Quota for week' },
+                            { data: 'quota1', title: 'long_workout' },
+                            { data: 'quota2', title: 'short_workout_1' },
+                            { data: 'quota3', title: 'short_workout_2' },
+                            { data: 'quota4', title: 'medium_workout_1' },
+                            { data: 'quota5', title: 'medium_workout_2' }
                         ]
                     });
                     // Clear the existing table data

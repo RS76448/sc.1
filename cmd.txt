@@ -3,4 +3,8 @@ sudo service nginx restart
  ssh root@170.187.238.102
  $Jq$!K0@cVb*hHvZ
  sequelize-auto -h <host> -d <database> -u <user> -x [password] -p [port]  --dialect [dialect] -c [/path/to/config] -o [/path/to/models]
- sequelize-auto -h localhost -d exersicequota -u graphql -x 123456 -p 8006  --dialect mysql -c /Users/wolthuis/Documents/websites/tutorials/graphql-migrating-mysql/tutorial_assets/sequelize-auto-settings.json -o /Users/wolthuis/Documents/websites/tutorials/graphql-migrating-mysql/app/models
+ sequelize-auto -h db4free.net -d fitapp -u fitapp -x fitappfitapp -p 3306  --dialect mysql -c /home/rohit/Desktop/node/sofueled.1/src/models/sequelize-auto-settings.json -o /home/rohit/Desktop/node/sofueled.1/src/models
+git remote add origin https://github.com/RS76448/sc.1.git
+fitapp
+fitappfitapp
+UPDATE user SET authentication_string=PASSWORD('fitnessapp') WHERE User='root';
