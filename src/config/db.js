@@ -8,7 +8,7 @@ var db = {}
 //     dialect: 'mysql'
 // });
 
-const sequelize = new Sequelize('running_schedule', 'root', '', {
+const sequelize = new Sequelize('running_schedule', 'root', 'Fitnessapp#121', {
     host: '127.0.0.1',
     port: 3306,
     dialect: 'mysql'
