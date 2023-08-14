@@ -2,7 +2,7 @@ const Sequelize = require('sequelize')
 
 var db = {}
 
-const sequelize = new Sequelize('running_schedule', 'fitnessapp', 'fitnessapp', {
+const sequelize = new Sequelize('running_schedule', 'fitnessapp', 'Fitnessapp#121', {
     host: 'localhost',
     port: 3306, 
     dialect: 'mysql',

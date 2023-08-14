@@ -11,3 +11,6 @@ UPDATE user SET authentication_string=PASSWORD('fitnessapp') WHERE User='root';
 
 CREATE USER 'fitnessapp'@'localhost' IDENTIFIED WITH caching_sha2_password BY 'fitnessapp';
 GRANT CREATE, ALTER, DROP, INSERT, UPDATE, DELETE, SELECT, REFERENCES, RELOAD ON *.* TO 'fitnessapp'@'localhost' WITH GRANT OPTION;
+ALTER USER 'fitnessapp'@'localhost' IDENTIFIED WITH 'mysql_native_password' BY 'fitnessapp';
+FLUSH PRIVILEGES;
+CREATE USER 'fitnessapp'@'localhost' IDENTIFIED WITH 'mysql_native_password' BY 'Fitnessapp#121';
