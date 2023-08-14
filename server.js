@@ -30,7 +30,7 @@ app.set("view engine", "ejs")
 
 
 
-app.use('/fn',fitnessRouter)
+app.use('/yofit',fitnessRouter)
 
 app.listen(8000,'0.0.0.0',()=>{
     console.log("server started")

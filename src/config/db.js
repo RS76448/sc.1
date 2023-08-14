@@ -2,12 +2,17 @@ const Sequelize = require('sequelize')
 
 var db = {}
 
-const sequelize = new Sequelize('running_schedule', 'root', 'Fitnessapp#121', {
+// const sequelize = new Sequelize('running_schedule', 'fitnessapp', 'fitnessapp', {
+//     host: 'db4free.net',
+//     port: 3306,
+//     dialect: 'mysql'
+// });
+
+const sequelize = new Sequelize('running_schedule', 'root', '', {
     host: '127.0.0.1',
     port: 3306,
     dialect: 'mysql'
 });
-
 
 
 sequelize.authenticate()

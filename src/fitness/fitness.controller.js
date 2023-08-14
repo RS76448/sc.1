@@ -4,6 +4,11 @@ const runningquotas=require("../models/runningquotas")
 const db=require("../config/db")
 const {getNextCycleDate}=require("../utils/dateutils")
 module.exports={
+    addSchedule:async(req,res)=>{
+        return res.render("addSchedule.ejs",{
+            base_url
+        })
+    },
     renderFn:async(req,res)=>{
         // db.running_schedule.sync({ alter: true })
         // .then(() => {

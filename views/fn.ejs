@@ -72,6 +72,7 @@
     <!-- Include Bootstrap JS (optional) -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
+        let dataTable;
         function generatereport() {
 
             let startdate = $("#startdate").val();
@@ -91,14 +92,14 @@
             fetch(`<%base_url%>/fn/generatereport`, requestOptions)
                 .then(res => res.json())
                 .then((data) => {
-                    if ($.fn.DataTable.isDataTable('#jsonTable')) {
-                        $('#jsonTable').DataTable().destroy();
-                    }
+                   
                     const jsonData = data
                     // somedata = Object.keys(jsonData).map(key => console.log(key))
                     // console.log(somedata)
                     // Initialize DataTables
-                    const dataTable = $('#jsonTable').DataTable({
+                  
+                        const dataTable = $('#jsonTable').DataTable({
+                    
                         columns: [
                             { data: 'newweek', title: 'Week' },
 
@@ -112,6 +113,10 @@
                             { data: 'quota5', title: 'medium_workout_2' }
                         ]
                     });
+                  
+
+         
+                 
                     // Clear the existing table data
 
 
