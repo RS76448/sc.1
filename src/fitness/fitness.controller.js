@@ -60,13 +60,22 @@ module.exports = {
             4: "4_days",
             5: "5_days",
         }
-        const workoutnamemapping = {
-            1: "long_workout",
-            4: "short_workout_1",
-            5: "short_workout_2",
-            2: "medium_workout_1",
-            3: "medium_workout_2",
-        }
+        // const workoutnamemapping = {
+        //     1: "long_workout",
+        //     4: "short_workout_1",
+        //     5: "short_workout_2",
+        //     2: "medium_workout_1",
+        //     3: "medium_workout_2",
+        // }
+
+        const workoutnamemapping = [
+            "long_workout",
+             
+             "medium_workout_1",
+             "medium_workout_2",
+             "short_workout_1",
+             "short_workout_2",
+        ]
         const combosArray = comboselem.split("").map(e => parseInt(e));
         const unitofexersice = "KM"
         const totalweeks = await db.running_schedule.count({ distinct: "week" });
@@ -87,20 +96,36 @@ module.exports = {
 
         for (let i = 0; i < totaldays; i++) {
             let weeknumber = parseInt(i / 7) + 1// Use Math.floor for better readability
+           
             // console.log("weeknumber", weeknumber)
             if ((i + 1) % 7 === 0) {
                 let weekdata = await db.running_schedule.findOne({ where: { week: weeknumber } })
                 let totalquota = weekdata[daysoptionsmapping[daysoptions]]
                 // console.log("weekdata", weekdata)
+                let newweek=[]
+                let workoutnamespliceable = workoutnamemapping.slice();
                 week.map((day, index) => {
-                    for (let i = 0; i <= 6; i++) {
+                   
+                    day.quota = (totalquota * (weekdata[workoutnamespliceable[0]] / 100)).toFixed(2) + ' ' + unitofexersice
+                    // console.log("weekdata[workoutnamemapping[i]",weekdata[workoutnamemapping[i]])
+                    // console.log("workoutnamemapping[i]",workoutnamemapping[i])
+                    day.totalquota = totalquota + ' ' + unitofexersice
+                    day.workoutname = workoutnamespliceable[0]
+                    newweek.push(day)
+                    //splice the array from 0th index
+                    workoutnamespliceable.splice(0,1)
+                    // for (let i = 0; i <= 6; i++) {
 
 
-                        day[`quota${i}`] = i <= daysoptions ? ((totalquota * (weekdata[workoutnamemapping[i]] / 100)).toFixed(2)) + ' ' + unitofexersice : "NULL"
-                        // console.log("weekdata[workoutnamemapping[i]",weekdata[workoutnamemapping[i]])
-                        // console.log("workoutnamemapping[i]",workoutnamemapping[i])
-                        day.totalquota = totalquota + ' ' + unitofexersice
-                    }
+                      
+                    //     day[`quota${i}`] = i <= daysoptions ? ((totalquota * (weekdata[workoutnamemapping[index]] / 100)).toFixed(2)) + ' ' + unitofexersice : "NULL"
+                    //     // console.log("weekdata[workoutnamemapping[i]",weekdata[workoutnamemapping[i]])
+                    //     // console.log("workoutnamemapping[i]",workoutnamemapping[i])
+                    //     day.totalquota = totalquota + ' ' + unitofexersice
+                    //     day.workoutname = workoutnamemapping[i]
+                    //     newweek.push(day)
+                       
+                    // }
                 })
                 // console.log("weekdata",weekdata)
                 // let weekrunningquota = runningquotas?.find(e =>e.week==weeknumber);
