@@ -4,7 +4,7 @@ var db = {}
 
 const sequelize = new Sequelize('fitnessapp', 'fitnessapp', 'fitnessapp', {
     host: 'localhost',
-    port: '3306',
+    port: 3306, // Note: port should be a number, not a string
     dialect: 'mysql',
     define: {
         freezeTableName: true,
@@ -15,9 +15,8 @@ const sequelize = new Sequelize('fitnessapp', 'fitnessapp', 'fitnessapp', {
         acquire: 30000,
         idle: 10000,
     },
-    // http://docs.sequelizejs.com/manual/tutorial/querying.html#operators
-    operatorsAliases: false,
-})
+});
+
 sequelize.authenticate()
   .then(() => {
     console.log('Connection has been established successfully.');
