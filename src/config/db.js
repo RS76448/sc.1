@@ -2,8 +2,8 @@ const Sequelize = require('sequelize')
 
 var db = {}
 
-// const sequelize = new Sequelize('running_schedule', 'fitnessapp', 'fitnessapp', {
-//     host: 'db4free.net',
+// const sequelize = new Sequelize('running_schedule', 'root', '', {
+//     host: 'localhost',
 //     port: 3306,
 //     dialect: 'mysql'
 // });

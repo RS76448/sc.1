@@ -72,10 +72,80 @@
     <!-- Include Bootstrap JS (optional) -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        let dataTable;
-        function generatereport() {
+        // let dataTable;
+        // function generatereport() {
 
-            let startdate = $("#startdate").val();
+        //     let startdate = $("#startdate").val();
+        //     let daysoptions = $("#daysoptions").val();
+        //     let comboselem = $("#combos").val();
+        //     let options = {
+        //         startdate,
+        //         daysoptions,
+        //         comboselem
+        //     }
+        //     const requestOptions = {
+
+        //         method: 'POST',
+        //         headers: { 'Content-Type': 'application/json' },
+        //         body: JSON.stringify(options)
+        //     };
+        //     fetch(`<%base_url%>/yofit/generatereport`, requestOptions)
+        //         .then(res => res.json())
+        //         .then((data) => {
+                   
+        //             const jsonData = data
+        //             // somedata = Object.keys(jsonData).map(key => console.log(key))
+        //             // console.log(somedata)
+        //             // Initialize DataTables
+                  
+        //                 const dataTable = $('#jsonTable').DataTable({
+                    
+        //                 columns: [
+        //                     { data: 'newweek', title: 'Week' },
+
+        //                     { data: 'newdate', title: 'Date' },
+        //                     { data: 'newday', title: 'Day' },
+        //                     { data: 'totalquota', title: 'Total Quota for week' },
+        //                     { data: 'quota1', title: 'long_workout' },
+        //                     { data: 'quota2', title: 'short_workout_1' },
+        //                     { data: 'quota3', title: 'short_workout_2' },
+        //                     { data: 'quota4', title: 'medium_workout_1' },
+        //                     { data: 'quota5', title: 'medium_workout_2' }
+        //                 ]
+        //             });
+                  
+
+         
+                 
+        //             // Clear the existing table data
+
+
+        //             // Loop through each alldates object and add its weekdates to the table
+        //             jsonData.alldates.forEach(dateObj => {
+
+        //                 dataTable.rows.add(dateObj.weekdates).draw();
+        //             });
+        //             // dataTable.destroy();
+        //         })
+        // }
+
+        let dataTable = $('#jsonTable').DataTable({
+    columns: [
+        { data: 'newweek', title: 'Week' },
+        { data: 'newdate', title: 'Date' },
+        { data: 'newday', title: 'Day' },
+        { data: 'totalquota', title: 'Total Quota for week' },
+        { data: 'quota1', title: 'long_workout' },
+        { data: 'quota2', title: 'short_workout_1' },
+        { data: 'quota3', title: 'short_workout_2' },
+        { data: 'quota4', title: 'medium_workout_1' },
+        { data: 'quota5', title: 'medium_workout_2' }
+    ]
+});
+
+function generatereport() {
+    // ...
+    let startdate = $("#startdate").val();
             let daysoptions = $("#daysoptions").val();
             let comboselem = $("#combos").val();
             let options = {
@@ -89,46 +159,21 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(options)
             };
-            fetch(`<%base_url%>/yofit/generatereport`, requestOptions)
-                .then(res => res.json())
-                .then((data) => {
-                   
-                    const jsonData = data
-                    // somedata = Object.keys(jsonData).map(key => console.log(key))
-                    // console.log(somedata)
-                    // Initialize DataTables
-                  
-                        const dataTable = $('#jsonTable').DataTable({
-                    
-                        columns: [
-                            { data: 'newweek', title: 'Week' },
+    fetch(`<%base_url%>/yofit/generatereport`, requestOptions)
+        .then(res => res.json())
+        .then((data) => {
+            
+            const jsonData = data;
 
-                            { data: 'newdate', title: 'Date' },
-                            { data: 'newday', title: 'Day' },
-                            { data: 'totalquota', title: 'Total Quota for week' },
-                            { data: 'quota1', title: 'long_workout' },
-                            { data: 'quota2', title: 'short_workout_1' },
-                            { data: 'quota3', title: 'short_workout_2' },
-                            { data: 'quota4', title: 'medium_workout_1' },
-                            { data: 'quota5', title: 'medium_workout_2' }
-                        ]
-                    });
-                  
+            // Clear the existing table data
+            dataTable.clear();
 
-         
-                 
-                    // Clear the existing table data
-
-
-                    // Loop through each alldates object and add its weekdates to the table
-                    jsonData.alldates.forEach(dateObj => {
-
-                        dataTable.rows.add(dateObj.weekdates).draw();
-                    });
-                    // dataTable.destroy();
-                })
-        }
-
+            // Loop through each alldates object and add its weekdates to the table
+            jsonData.alldates.forEach(dateObj => {
+                dataTable.rows.add(dateObj.weekdates).draw();
+            });
+        })
+}
         function fetchoptions() {
             let optionvalue = $("#daysoptions").val();
             let comboselem = $("#combos");

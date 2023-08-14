@@ -48,6 +48,7 @@ module.exports={
             3:"medium_workout_2",
         }
         const combosArray = comboselem.split(" ").map(e => parseInt(e));
+        const unitofexersice="KM"
         const totalweeks = await db.running_schedule.count({distinct:"week"});
         const totaldays = totalweeks * 7;
         const maptotextualday = {
@@ -75,10 +76,10 @@ module.exports={
                     for(let i=1;i<=5;i++){
                        
                        
-                        day[`quota${i}`]=(totalquota*(weekdata[workoutnamemapping[i]]/100)).toFixed(2)
+                        day[`quota${i}`]= i<=daysoptions?((totalquota*(weekdata[workoutnamemapping[i]]/100)).toFixed(2))+' '+unitofexersice:"NULL"
                         // console.log("weekdata[workoutnamemapping[i]",weekdata[workoutnamemapping[i]])
                         // console.log("workoutnamemapping[i]",workoutnamemapping[i])
-                        day.totalquota=totalquota
+                        day.totalquota=totalquota+' '+unitofexersice
                     }
                 })
                 // console.log("weekdata",weekdata)
