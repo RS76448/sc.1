@@ -16,7 +16,7 @@ module.exports = {
             value: "[ Monday - Tuesday- Wednesday ]"
         },
         {
-            id: "2 5 6",
+            id: "4 5 6",
             value: "[ Thursday, Friday, Saturday]"
         },
         {
