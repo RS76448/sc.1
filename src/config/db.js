@@ -9,6 +9,7 @@ const sequelize = new Sequelize('running_schedule', 'root', 'Fitnessapp#121', {
 });
 
 
+
 sequelize.authenticate()
   .then(() => {
     console.log('Connection has been established successfully.');

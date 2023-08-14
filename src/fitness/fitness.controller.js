@@ -70,7 +70,7 @@ module.exports={
                     for(let i=1;i<=5;i++){
                        
                        
-                        day[`quota${i}`]=totalquota*(weekdata[workoutnamemapping[i]]/100).toFixed(2)
+                        day[`quota${i}`]=(totalquota*(weekdata[workoutnamemapping[i]]/100)).toFixed(2)
                         // console.log("weekdata[workoutnamemapping[i]",weekdata[workoutnamemapping[i]])
                         // console.log("workoutnamemapping[i]",workoutnamemapping[i])
                         day.totalquota=totalquota

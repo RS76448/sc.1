@@ -20,3 +20,6 @@ DROP USER 'fitnessapp'@'localhost';
 CREATE USER 'fitnessapp'@'localhost' IDENTIFIED WITH 'mysql_native_password' BY 'Fitnessapp#121';
 GRANT ALL PRIVILEGES ON running_schedule.* TO 'fitnessapp'@'localhost';
 FLUSH PRIVILEGES;
+UPDATE user SET plugin='caching_sha2_password' WHERE User='root';
+
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'Fitnessapp#121';
