@@ -25,6 +25,11 @@ sequelize.authenticate()
 let models = [
     require("../models/running_schedule.js"),
     require("../models/daysoptions.js"),
+    require("../models/activities.js"),
+    require("../models/levels.js"),
+    require("../models/activites_classification.js"),
+    require("../models/zones.js"),
+
 ]
 
 // Initialize models

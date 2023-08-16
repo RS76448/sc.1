@@ -174,3 +174,213 @@ INSERT INTO days_options (run_days_per_week, options, monday, tuesday, wednesday
 (2, 4, 'Rest Day', 'Medium Workout 1', 'Rest Day', 'Rest Day', 'Rest Day', 'Rest Day', 'Long Workout'),
 (2, 5, 'Rest Day', 'Medium Workout 1', 'Rest Day', 'Rest Day', 'Rest Day', 'Long Workout', 'Rest Day'),
 (2, 6, 'Rest Day', 'Medium Workout 1', 'Rest Day', 'Rest Day', 'Long Workout', 'Rest Day', 'Rest Day');
+
+
+CREATE TABLE activites (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    activity_name VARCHAR(255) NOT NULL,
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+INSERT INTO activites (activity_name) VALUES
+    ("Running"),
+    ("Cycling"),
+    ("Swimming");
+
+CREATE TABLE lelel (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    level VARCHAR(255) NOT NULL,
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO lelel (level) VALUES
+    ("Beginner"),
+    ("Novice"),
+    ("Intermediate"),
+    ("Advanced"),
+    ("Elite");
+
+CREATE TABLE zones (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    activity_id INT NOT NULL,
+    zone VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    offset_start INT NOT NULL,
+    offset_end INT NOT NULL,
+    level_id INT NOT NULL,
+   
+    FOREIGN KEY (activity_id) REFERENCES activites(id),
+    FOREIGN KEY (level_id) REFERENCES lelel(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+-- for activity 1
+INSERT INTO zones (activity_id, zone, name, offset_start, offset_end, level_id) VALUES 
+(1, 'Zone 1', 'Easy Run', 90, 120, 1),
+(1, 'Zone 2', 'Aerobic Run', 60, 90, 1),
+(1, 'Zone 3', 'Tempo Run', 30, 50, 1),
+(1, 'Zone 4', 'Speed Interval - 2 km', 20, 0, 1),
+(1, 'Zone 5', 'Speed Interval - 1 km', 40, 20, 1),
+(1, 'Zone 6', 'Speed Interval - 800 m Repeats', 50, 40, 1),
+(1, 'Zone 7', 'Speed Interval - 400 m Repeats', 60, 50, 1),
+(1, 'Zone 8', 'Speed Interval - 200 m Repeats', 70, 60, 1);
+
+
+INSERT INTO zones (activity_id, zone, name, offset_start, offset_end, level_id) VALUES 
+(1, 'Zone 1', 'Easy Run', 90, 120, 2),
+(1, 'Zone 2', 'Aerobic Run', 60, 90, 2),
+(1, 'Zone 3', 'Tempo Run', 30, 50, 2),
+(1, 'Zone 4', 'Speed Interval - 2 km', 20, 0, 2),
+(1, 'Zone 5', 'Speed Interval - 1 km', 40, 20, 2),
+(1, 'Zone 6', 'Speed Interval - 800 m Repeats', 50, 40, 2),
+(1, 'Zone 7', 'Speed Interval - 400 m Repeats', 60, 50, 2);
+
+
+INSERT INTO zones (activity_id, zone, name, offset_start, offset_end, level_id) VALUES 
+(1, 'Zone 1', 'Easy Run', 80, 140, 3),
+(1, 'Zone 2', 'Aerobic Run', 60, 80, 3),
+(1, 'Zone 3', 'Tempo Run', 30, 50, 3),
+(1, 'Zone 4', 'Speed Interval - 2 km', 0, 10, 3),
+(1, 'Zone 5', 'Speed Interval - 1 km', 10, 0, 3),
+(1, 'Zone 6', 'Speed Interval - 800 m Repeats', 20, 10, 3),
+(1, 'Zone 7', 'Speed Interval - 400 m Repeats', 30, 20, 3),
+(1, 'Zone 8', 'Speed Interval - 200 m Repeats', 40, 30, 3);
+
+INSERT INTO zones (activity_id, zone, name, offset_start, offset_end, level_id) VALUES 
+(1, 'Zone 1', 'Easy Run', 80, 140, 4),
+(1, 'Zone 2', 'Aerobic Run', 60, 80, 4),
+(1, 'Zone 3', 'Tempo Run', 30, 50, 4),
+(1, 'Zone 4', 'Speed Interval - 2 km', 0, 10, 4),
+(1, 'Zone 5', 'Speed Interval - 1 km', 10, 0, 4),
+(1, 'Zone 6', 'Speed Interval - 800 m Repeats', 20, 10, 4),
+(1, 'Zone 7', 'Speed Interval - 400 m Repeats', 30, 20, 4),
+(1, 'Zone 8', 'Speed Interval - 200 m Repeats', 40, 30, 4);
+
+
+INSERT INTO zones (activity_id, zone, name, offset_start, offset_end, level_id) VALUES 
+(1, 'Zone 1', 'Easy Run', 80, 140, 5),
+(1, 'Zone 2', 'Aerobic Run', 60, 80, 5),
+(1, 'Zone 3', 'Tempo Run', 30, 50, 5),
+(1, 'Zone 4', 'Speed Interval - 2 km', 0, 10, 5),
+(1, 'Zone 5', 'Speed Interval - 1 km', 10, 0, 5),
+(1, 'Zone 6', 'Speed Interval - 800 m Repeats', 20, 10, 5),
+(1, 'Zone 7', 'Speed Interval - 400 m Repeats', 30, 20, 5),
+(1, 'Zone 8', 'Speed Interval - 200 m Repeats', 40, 30, 5);
+
+-- for activity 2
+INSERT INTO zones (activity_id, zone, name, offset_start, offset_end, level_id) VALUES 
+(2, 'Zone 1', 'Easy', -3, 0, 1),
+(2, 'Zone 2', 'Endurance', -3, -2, 1),
+(2, 'Zone 3', 'Tempo', -2, -1, 1),
+(2, 'Zone 4', 'Threshold', -1, 0, 1),
+(2, 'Zone 5', 'Best Effort - 4 to 8 Minute intervals', 0, 2, 1),
+(2, 'Zone 6', 'Best Effort - 1 to 4 Minute intervals', 2, 4, 1),
+(2, 'Zone 7', 'Best Effort - 0 to 1 minute intervals', 4, 6, 1),
+
+(2, 'Zone 1', 'Easy', -8, -5, 2),
+(2, 'Zone 2', 'Endurance', -5, -2, 2),
+(2, 'Zone 3', 'Tempo', -2, -1, 2),
+(2, 'Zone 4', 'Threshold', -1, 0, 2),
+(2, 'Zone 5', 'Best Effort - 4 to 8 Minute intervals', 0, 2, 2),
+(2, 'Zone 6', 'Best Effort - 1 to 4 Minute intervals', 2, 4, 2),
+(2, 'Zone 7', 'Best Effort - 0 to 1 minute intervals', 4, 6, 2),
+
+(2, 'Zone 1', 'Easy', -8, -5, 3),
+(2, 'Zone 2', 'Endurance', -4, -2, 3),
+(2, 'Zone 3', 'Tempo', -2, 0, 3),
+(2, 'Zone 4', 'Threshold', 0, 1, 3),
+(2, 'Zone 5', 'Best Effort - 4 to 8 Minute intervals', 1, 2, 3),
+(2, 'Zone 6', 'Best Effort - 1 to 4 Minute intervals', 2, 4, 3),
+(2, 'Zone 7', 'Best Effort - 0 to 1 minute intervals', 4, 6, 3),
+
+(2, 'Zone 1', 'Easy', -12, -9, 4),
+(2, 'Zone 2', 'Endurance', -7, -5, 4),
+(2, 'Zone 3', 'Tempo', -5, -3, 4),
+(2, 'Zone 4', 'Threshold', -3, 0, 4),
+(2, 'Zone 5', 'Best Effort - 4 to 8 Minute intervals', 0, 2, 4),
+(2, 'Zone 6', 'Best Effort - 1 to 4 Minute intervals', 2, 4, 4),
+(2, 'Zone 7', 'Best Effort - 0 to 1 minute intervals', 4, 6, 4),
+
+(2, 'Zone 1', 'Easy', -15, -14, 5),
+(2, 'Zone 2', 'Endurance', -12, -8, 5),
+(2, 'Zone 3', 'Tempo', -8, -5, 5),
+(2, 'Zone 4', 'Threshold', -5, 0, 5),
+(2, 'Zone 5', 'Best Effort - 4 to 8 Minute intervals', -2, 2, 5),
+(2, 'Zone 6', 'Best Effort - 1 to 4 Minute intervals', 2, 4, 5),
+(2, 'Zone 7', 'Best Effort - 0 to 1 minute intervals', 4, 6, 5);
+
+-- for activity 3
+-- Swimming - Beginner
+INSERT INTO zones (activity_id, zone, name, offset_start, offset_end, level_id) VALUES 
+(3, 'Zone 1', 'Easy', 25, 30, 1),
+(3, 'Zone 2', 'Moderate', 15, 20, 1),
+(3, 'Zone 3', 'Hard', 5, 10, 1),
+(3, 'Zone 4', 'Best Effort', 5, 0, 1);
+
+
+INSERT INTO zones (activity_id, zone, name, offset_start, offset_end, level_id) VALUES 
+(3, 'Zone 1', 'Easy', 25, 30, 2),
+(3, 'Zone 2', 'Moderate', 15, 20, 2),
+(3, 'Zone 3', 'Hard', 5, 10, 2),
+(3, 'Zone 4', 'Best Effort', 5, 0, 2);
+
+
+INSERT INTO zones (activity_id, zone, name, offset_start, offset_end, level_id) VALUES 
+(3, 'Zone 1', 'Easy', 25, 30, 3),
+(3, 'Zone 2', 'Moderate', 15, 20, 3),
+(3, 'Zone 3', 'Hard', 5, 10, 3),
+(3, 'Zone 4', 'Best Effort', 5, 0, 3);
+
+
+INSERT INTO zones (activity_id, zone, name, offset_start, offset_end, level_id) VALUES 
+(3, 'Zone 1', 'Easy', 25, 40, 4),
+(3, 'Zone 2', 'Moderate', 15, 25, 4),
+(3, 'Zone 3', 'Hard', 5, 10, 4),
+(3, 'Zone 4', 'Best Effort', 5, 0, 4);
+
+
+INSERT INTO zones (activity_id, zone, name, offset_start, offset_end, level_id) VALUES 
+(3, 'Zone 1', 'Easy', 25, 35, 5),
+(3, 'Zone 2', 'Moderate', 15, 20, 5),
+(3, 'Zone 3', 'Hard', 5, 10, 5),
+(3, 'Zone 4', 'Best Effort', 5, 0, 5);
+
+
+
+CREATE TABLE activites_classification (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    activity_id INT NOT NULL,
+    distance INT NOT NULL,
+    level_id INT NOT NULL,
+    from_range TIME NOT NULL,
+    end_range TIME NOT NULL,
+    FOREIGN KEY (activity_id) REFERENCES activites(id),
+    FOREIGN KEY (level_id) REFERENCES lelel(id)
+);
+
+INSERT INTO activites_classifications (activity_id, distance, fitness_group, from_range, end_range) VALUES
+    (1, 5, 1, "0:40:01", "1:00:00"),
+    (1,5, 2, "0:30:01", "0:40:00"),
+    (1,5,3,"0:25:01",	"0:30:00"),
+     (1,5,4,"0:20:01",	"0:25:00"),
+      (1,5,5,"0:00:00",	"0:20:00");
+
+
+INSERT INTO activites_classifications (activity_id, distance, fitness_group, from_range, end_range) VALUES
+    (2, 10, 1, "0:30:00", "0:50:00"),
+    (2,10, 2, "0:22:14", "0:29:59"),
+    (2,10,3,"0:18:11",	"0:22:13"),
+     (2,10,4,"0:15:47",	"0:18:10"),
+      (2,10,5,"0:10:00",	"0:15:46");
+
+INSERT INTO activites_classifications (activity_id, distance, fitness_group, from_range, end_range) VALUES
+    (3, 0.1, 1, "0:03:45", "0:05:00"),
+    (3,0.1, 2, "0:02:30", "0:03:45"),
+    (3,0.1,3,"0:02:00",	"0:02:30"),
+     (3,0.1,4,"0:01:30",	"0:02:00"),
+      (3,0.1,5,"0:00:00",	"0:01:30");
+
+INSERT INTO activites_classifications (activity_id, distance, fitness_group, from_range, end_range) VALUES
+    (3, 0.4, 1, "0:15:01", "0:20:00"),
+    (3,0.4, 2, "0:10:01", "0:15:00"),
+    (3,0.4,3,"0:08:01",	"0:10:00"),
+     (3,0.4,4,"0:06:01",	"0:08:00"),
+      (3,0.4,5,"0:00:00",	"0:06:00");
+

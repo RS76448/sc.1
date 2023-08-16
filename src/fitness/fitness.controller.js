@@ -2,6 +2,8 @@ const base_url = "http://localhost:3000";
 const daysoptions = require("../models/daysoptions")
 const runningquotas = require("../models/runningquotas")
 const db = require("../config/db")
+const { Op } = require('sequelize');
+const {convertToSQLTimeFormat}=require("../utils/timeutils")
 const { getNextCycleDate } = require("../utils/dateutils")
 module.exports = {
     addSchedule: async (req, res) => {
@@ -25,6 +27,77 @@ module.exports = {
             base_url
         })
     },
+    getzones: async (req, res) => {
+        const activities = await db.activities.sync().then(() => {
+            return db.activities.findAll()
+        })
+        return res.render("calculatezones.ejs", {
+            base_url,
+            activities
+        })
+    },
+    fetchactivitylevel: async (req, res) => {
+        const {activity_id,time,distance}=req.params
+        const formattedtime=convertToSQLTimeFormat(time)
+        const giventime=formattedtime/parseInt(distance)
+        const activitylevel = await db.activites_classification.sync().then(() => {
+            return db.activites_classification.findOne({
+                where: {
+                    activity_id: parseInt(activity_id),
+                    distance: distance,
+                    from_range: {
+                      [Op.lte]: formattedtime
+                    },
+                    end_range: {
+                      [Op.gte]: formattedtime
+                    }
+                  },
+                  include: [db.activities, db.levels]
+            })
+        })
+        return res.json({ activitylevel })
+    },
+    generatezonesreport: async (req, res) => {
+        const {
+            activity_id,
+            fitnesslevelid,
+            distance,
+            time
+        }=req.body;
+        const formatteddistance=parseInt(distance)
+        const formattedtime=parseInt(time)
+        const outputdistance=formattedtime/formatteddistance;
+        console.log("outputdistance",outputdistance)
+        console.log("formattedtime",formattedtime)
+        console.log("formatteddistance",formatteddistance)
+        const zones=await db.zones.sync().then(()=>{
+            return db.zones.findAll({
+                where:{
+                    activity_id:parseInt(activity_id),
+                    level_id:parseInt(fitnesslevelid)
+                },
+                include:[db.activities,db.levels]
+            })
+        })
+       
+        const zonesdata=zones.map(zone=>{
+            return {
+                zone:zone.zone,
+                name:zone.name,
+                offsetstart:zone.offset_start,
+                offsetend:zone.offset_end,
+                activity:zone.activity.activity_name,
+                pacestart:outputdistance+zone.offset_start,
+                paceend:outputdistance+zone.offset_end,
+            }
+        })
+        const otherdata={
+            giventime:formattedtime,
+            outputtime:outputdistance,
+        }
+        return res.json({zonesdata,otherdata})
+    },
+
     fetchoptions: async (req, res) => {
         const numofdays = parseInt(req.params.days)
         const daysoptionsfromdb = await db.days_options.sync({ alter: true })
@@ -50,7 +123,7 @@ module.exports = {
         const value="Monday-" + daysoptions.monday + " Tuesday-" + daysoptions.tuesday + " Wednesday-" + daysoptions.wednesday + " Thursday-" + daysoptions.thursday + " Friday-" + daysoptions.friday + " Saturday-" + daysoptions.saturday+" Sunday-"+daysoptions.sunday
         return res.json({ value })
     },
-
+    
     generatereport: async (req, res) => {
         const { startdate, daysoptions, comboselem } = req.body;
         console.log("comboselem", comboselem)
