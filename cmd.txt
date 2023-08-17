@@ -38,3 +38,8 @@ password=Fitnessapp#121
 GRANT ALL PRIVILEGES ON running_schedule.* TO 'root'@'170.187.238.102';
 
 SHOW GRANTS FOR 'root'@'170.187.238.102';
+
+
+git add .
+git commit -m "4"
+git push origin main
