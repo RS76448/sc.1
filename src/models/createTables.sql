@@ -384,3 +384,179 @@ INSERT INTO activites_classifications (activity_id, distance, level_id, from_ran
      (3,400,4,"0:06:01",	"0:08:00"),
       (3,400,5,"0:00:00",	"0:06:00");
 
+
+CREATE TABLE phasename (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+   
+    phase VARCHAR(255) NOT NULL,
+   
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO phasename (phase) VALUES
+("Base"),
+("Build"),
+("Peak");
+
+CREATE TABLE phase (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    week INT NOT NULL,
+    phase INT NOT NULL,
+    phaseno INT NOT NULL,
+    FOREIGN KEY (phase) REFERENCES phasename(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+
+
+
+-- phase no 1
+INSERT INTO phase (week, phase, phaseno) VALUES
+(1, 1, 1),
+(2, 1, 1),
+(3, 2, 1),
+(4, 1, 1),
+(5, 1, 1),
+(6, 2, 1),
+(7, 3, 1),
+(8, 1, 1),
+(9, 1, 1),
+(10, 3, 1),
+(11, 3, 1),
+(12, 1, 1),
+(13, 1, 1),
+(14, 1, 1),
+(15, 2, 1),
+(16, 1, 1),
+(17, 1, 1),
+(18, 2, 1),
+(19, 3, 1),
+(20, 1, 1),
+(21, 1, 1),
+(22, 3, 1),
+(23, 3, 1),
+(24, 1, 1),
+(25, 1, 1),
+(26, 1, 1);
+
+-- phase no2
+INSERT INTO phase (week, phase, phaseno) VALUES
+(1, 1, 2),
+(2, 1, 2),
+(3, 2, 2),
+(4, 1, 2),
+(5, 1, 2),
+(6, 2, 2),
+(7, 3, 2),
+(8, 1, 2),
+(9, 1, 2),
+(10, 3, 2),
+(11, 3, 2),
+(12, 1, 2),
+(13, 1, 2),
+(14, 1, 2),
+(15, 2, 2),
+(16, 1, 2),
+(17, 1, 2),
+(18, 2, 2),
+(19, 3, 2),
+(20, 1, 2),
+(21, 1, 2),
+(22, 3, 2),
+(23, 3, 2),
+(24, 1, 2),
+(25, 1, 2),
+(26, 1, 2);
+
+CREATE TABLE workout (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    workout varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO workout(workout) VALUES
+("Long Workout"),
+("Medium Workout 1"),
+("Medium Workout 2"),
+("Short Workout 1"),
+("Short Workout 2");
+
+CREATE TABLE subworkout (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    subworkout varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO subworkout (subworkout) VALUES
+("Time Trial"),
+("Race Pace"),
+("Aerobic Run"),
+("Tempo"),
+("Easy"),
+("Interval"),
+("Easy Run"),
+("Fartlek"),
+("Long"),
+("Hill"),
+("Aerobic");
+
+
+CREATE TABLE phasesubactivity (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    phase_id INT NOT NULL,
+    workout_id INT NOT NULL,
+    subworkout_id INT NOT NULL,
+    FOREIGN KEY (subworkout_id) REFERENCES subworkout(id)
+    FOREIGN KEY (phase_id) REFERENCES phase(id),
+    FOREIGN KEY (workout_id) REFERENCES workout(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO phasesubactivity (phase_id, workout_id, subworkout_id) VALUES
+(1, 1, 9),
+(1, 2, 1),
+(1, 3, 5),
+(1, 4, 3),
+(1, 5, 8),
+(1, 1, 9),
+(1, 2, 3),
+(1, 3, 6),
+(1, 4, 3),
+(1, 5, 3),
+(1, 1, 9),
+(1, 2, 3),
+(1, 3, 3),
+(1, 4, 3),
+(1, 5, 8),
+(1, 1, 4),
+(1, 2, 3),
+(1, 3, 6),
+(1, 4, 3),
+(1, 5, 8),
+(2, 1, 9),
+(2, 2, 6),
+(2, 3, 3),
+(2, 4, 3),
+(2, 5, 3),
+(2, 1, 2),
+(2, 2, 3),
+(2, 3, 6),
+(2, 4, 3),
+(2, 5, 8),
+(2, 1, 4),
+(2, 2, 3),
+(2, 3, 7),
+(2, 4, 3),
+(2, 5, 8),
+(3, 1, 2),
+(3, 2, 7),
+(3, 3, 6),
+(3, 4, 3),
+(3, 5, 3),
+(3, 1, 10),
+(3, 2, 7),
+(3, 3, 11),
+(3, 4, 3),
+(3, 5, 3),
+(1, 1, 9),
+(1, 2, 3),
+(1, 3, 3),
+(1, 4, 3),
+(1, 5, 8);
+

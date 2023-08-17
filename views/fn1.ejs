@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EJS Page with Components</title>
+    <!-- Include Bootstrap CSS -->
+    <script src="https://code.jquery.com/jquery-3.7.0.js"
+        integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Include DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Include DataTables JavaScript -->
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="mt-4">Generate Report</h1>
+
+        <div class="form-group row mt-4">
+            <label for="datePicker" class="col-sm-3 col-form-label">Start Date:</label>
+            <div class="col-sm-6">
+                <input type="date" class="form-control" name="selectedDate" id="startdate">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="numDays" class="col-sm-3 col-form-label">How many Days:</label>
+            <div class="col-sm-6">
+                <select class="form-control" name="selectedOption" id="daysoptions" onchange="fetchoptions()">
+                    <option value="null">Please select a value</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="optionsDropdown" class="col-sm-3 col-form-label">Select Options:</label>
+            <div class="col-sm-6">
+                <select class="form-control" name="selectedOption" id="combos" onchange="fetchdaysoptionvalue()">
+                    <option value="null">Please select a value</option>
+                    <option>Please select</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <span class="col-sm-6" id="optionsvalue" style="font-size: small;"></span>
+        </div >
+        <div class="form-group row">
+            <label for="optionsDropdown" class="col-sm-3 col-form-label">Select Options:</label>
+            <div class="col-sm-6">
+                <select class="form-control" name="selectedOption" id="phaseno" onchange="fetchdaysoptionvalue()">
+                    <option value="null">Please select a value</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-9 offset-sm-3">
+                <button onclick="generatereport()" class="btn btn-primary" id="generateButton">Generate Report</button>
+            </div>
+        </div>
+        <table id="jsonTable" class="display">
+            <thead>
+                <!-- Table header cells will be added here -->
+            </thead>
+            <tbody>
+                <!-- Table body rows will be added here -->
+            </tbody>
+        </table>
+
+    </div>
+
+    <!-- Include Bootstrap JS (optional) -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // let dataTable;
+        // function generatereport() {
+
+        //     let startdate = $("#startdate").val();
+        //     let daysoptions = $("#daysoptions").val();
+        //     let comboselem = $("#combos").val();
+        //     let options = {
+        //         startdate,
+        //         daysoptions,
+        //         comboselem
+        //     }
+        //     const requestOptions = {
+
+        //         method: 'POST',
+        //         headers: { 'Content-Type': 'application/json' },
+        //         body: JSON.stringify(options)
+        //     };
+        //     fetch(`<%base_url%>/yofit/generatereport`, requestOptions)
+        //         .then(res => res.json())
+        //         .then((data) => {
+                   
+        //             const jsonData = data
+        //             // somedata = Object.keys(jsonData).map(key => console.log(key))
+        //             // console.log(somedata)
+        //             // Initialize DataTables
+                  
+        //                 const dataTable = $('#jsonTable').DataTable({
+                    
+        //                 columns: [
+        //                     { data: 'newweek', title: 'Week' },
+
+        //                     { data: 'newdate', title: 'Date' },
+        //                     { data: 'newday', title: 'Day' },
+        //                     { data: 'totalquota', title: 'Total Quota for week' },
+        //                     { data: 'quota1', title: 'long_workout' },
+        //                     { data: 'quota2', title: 'short_workout_1' },
+        //                     { data: 'quota3', title: 'short_workout_2' },
+        //                     { data: 'quota4', title: 'medium_workout_1' },
+        //                     { data: 'quota5', title: 'medium_workout_2' }
+        //                 ]
+        //             });
+                  
+
+         
+                 
+        //             // Clear the existing table data
+
+
+        //             // Loop through each alldates object and add its weekdates to the table
+        //             jsonData.alldates.forEach(dateObj => {
+
+        //                 dataTable.rows.add(dateObj.weekdates).draw();
+        //             });
+        //             // dataTable.destroy();
+        //         })
+        // }
+
+        let dataTable = $('#jsonTable').DataTable({
+    columns: [
+        { data: 'newweek', title: 'Week' },
+        { data: 'newdate', title: 'Date' },
+        { data: 'newday', title: 'Day' },
+        { data: 'totalquota', title: 'Total Quota for week' },
+        { data: 'quota', title: 'Day Quota' },
+        
+        { data: 'workoutname', title: 'workout' },
+        {data:'subworkout',title:'Sub workout'}
+     
+    ]
+});
+
+function generatereport() {
+    // ...
+    let startdate = $("#startdate").val();
+            let daysoptions = $("#daysoptions").val();
+            let comboselem = $("#combos").val();
+            let phaseno = $("#phaseno").val();
+            let options = {
+                startdate,
+                daysoptions,
+                comboselem,
+                phaseno
+            }
+            const requestOptions = {
+
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(options)
+            };
+    fetch(`<%base_url%>/yofit/generatereportv2`, requestOptions)
+        .then(res => res.json())
+        .then((data) => {
+            
+            const jsonData = data;
+
+            // Clear the existing table data
+            dataTable.clear();
+
+            // Loop through each alldates object and add its weekdates to the table
+            jsonData.alldates.forEach(dateObj => {
+                dataTable.rows.add(dateObj.weekdates).draw();
+            });
+        })
+}
+        function fetchoptions() {
+            let optionvalue = $("#daysoptions").val();
+            let comboselem = $("#combos");
+            // clear prev combos
+
+            console.log(optionvalue)
+            fetch(`<%base_url%>/yofit/fetchoptions/${optionvalue}`)
+                .then(res => res.json())
+                .then((data) => {
+                    comboselem.empty()
+                    data?.datatosend?.map((option,index) => {
+
+                        console.log(option)
+                        //set initial option value to empty
+                        if(index == 0){
+                            let newOption = `<option value="">Select</option>`;
+                            // Append the new option to the second select element
+                            comboselem.append(newOption);
+                        }
+                        let newOption = `<option value="${option.id}">${option.value}</option>`;
+                        // Append the new option to the second select element
+                        comboselem.append(newOption);
+                    })
+                })
+        }
+
+        function fetchdaysoptionvalue(){
+            let optionvalue = $("#daysoptions").val();
+            let comboselem = $("#combos").val();
+            // clear prev combos
+            // alert("comboselem: " + comboselem + ", optionvalue: " + optionvalue);
+
+
+            console.log(optionvalue)
+            fetch(`<%base_url%>/yofit/fetchdaysoptionvalue/${comboselem}`)
+                .then(res => res.json())
+                .then((data) => {
+                //    console.log(data)
+                //    console.log(data.value)
+                let text=`**${data.value}**`;
+                    $('#optionsvalue').html(data.value);
+                })
+        }
+    </script>
+</body>
+
+</html>

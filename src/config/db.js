@@ -5,13 +5,15 @@ var db = {}
 // const sequelize = new Sequelize('fitness', 'root', '', {
 //     host: 'localhost',
 //     port: 3306,
-//     dialect: 'mysql'
+//     dialect: 'mysql',
+//     logging: false
 // });
 
 const sequelize = new Sequelize('running_schedule', 'root', 'Fitnessapp#121', {
     host: '0.0.0.0',
     port: 3306,
-    dialect: 'mysql'
+    dialect: 'mysql',
+    logging: false
 });
 
 
@@ -29,6 +31,12 @@ let models = [
     require("../models/levels.js"),
     require("../models/activites_classification.js"),
     require("../models/zones.js"),
+    require("../models/phase.js"),
+    require("../models/phasename.js"),
+    require("../models/phasesubactivity.js"),
+    require("../models/subworkout.js"),
+    require("../models/workout.js"),
+
 
 ]
 

@@ -41,6 +41,15 @@ function convertToSQLTimeFormat(timeString) {
     // If no formats match, return the original string
     return timeString;
 }
+const getminandmaxtimerange = (data) => {
+    // Sorting based on from_range
+data.sort((a, b) => a.from_range.localeCompare(b.from_range));
+const minFromRange = data[0].from_range;
 
+// Sorting based on end_range
+data.sort((a, b) => a.end_range.localeCompare(b.end_range));
+const maxEndRange = data[data.length - 1].end_range;
+return {minFromRange, maxEndRange}
+}
 // Usage:
-module.exports = {convertToSQLTimeFormat};
+module.exports = {convertToSQLTimeFormat,getminandmaxtimerange};
