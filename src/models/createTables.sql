@@ -176,23 +176,23 @@ INSERT INTO days_options (run_days_per_week, options, monday, tuesday, wednesday
 (2, 6, 'Rest Day', 'Medium Workout 1', 'Rest Day', 'Rest Day', 'Long Workout', 'Rest Day', 'Rest Day');
 
 
-CREATE TABLE activites (
+CREATE TABLE activities (
     id INT PRIMARY KEY AUTO_INCREMENT,
     activity_name VARCHAR(255) NOT NULL,
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
-INSERT INTO activites (activity_name) VALUES
+INSERT INTO activities (activity_name) VALUES
     ("Running"),
     ("Cycling"),
     ("Swimming");
 
-CREATE TABLE lelel (
+CREATE TABLE levels (
     id INT PRIMARY KEY AUTO_INCREMENT,
     level VARCHAR(255) NOT NULL,
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO lelel (level) VALUES
+INSERT INTO levels (level) VALUES
     ("Beginner"),
     ("Novice"),
     ("Intermediate"),
@@ -344,43 +344,43 @@ INSERT INTO zones (activity_id, zone, name, offset_start, offset_end, level_id) 
 
 
 
-CREATE TABLE activites_classification (
+CREATE TABLE activites_classifications (
     id INT PRIMARY KEY AUTO_INCREMENT,
     activity_id INT NOT NULL,
     distance INT NOT NULL,
     level_id INT NOT NULL,
     from_range TIME NOT NULL,
     end_range TIME NOT NULL,
-    FOREIGN KEY (activity_id) REFERENCES activites(id),
-    FOREIGN KEY (level_id) REFERENCES lelel(id)
+    FOREIGN KEY (activity_id) REFERENCES activities(id),
+    FOREIGN KEY (level_id) REFERENCES levels(id)
 );
 
-INSERT INTO activites_classifications (activity_id, distance, fitness_group, from_range, end_range) VALUES
-    (1, 5, 1, "0:40:01", "1:00:00"),
-    (1,5, 2, "0:30:01", "0:40:00"),
-    (1,5,3,"0:25:01",	"0:30:00"),
-     (1,5,4,"0:20:01",	"0:25:00"),
-      (1,5,5,"0:00:00",	"0:20:00");
+INSERT INTO activites_classifications (activity_id, distance, level_id, from_range, end_range) VALUES
+    (1, 5000, 1, "0:40:01", "1:00:00"),
+    (1,5000, 2, "0:30:01", "0:40:00"),
+    (1,5000,3,"0:25:01",	"0:30:00"),
+     (1,5000,4,"0:20:01",	"0:25:00"),
+      (1,5000,5,"0:00:00",	"0:20:00");
 
 
-INSERT INTO activites_classifications (activity_id, distance, fitness_group, from_range, end_range) VALUES
-    (2, 10, 1, "0:30:00", "0:50:00"),
-    (2,10, 2, "0:22:14", "0:29:59"),
-    (2,10,3,"0:18:11",	"0:22:13"),
-     (2,10,4,"0:15:47",	"0:18:10"),
-      (2,10,5,"0:10:00",	"0:15:46");
+INSERT INTO activites_classifications (activity_id, distance, level_id, from_range, end_range) VALUES
+    (2, 10000, 1, "0:30:00", "0:50:00"),
+    (2,10000, 2, "0:22:14", "0:29:59"),
+    (2,10000,3,"0:18:11",	"0:22:13"),
+     (2,10000,4,"0:15:47",	"0:18:10"),
+      (2,10000,5,"0:10:00",	"0:15:46");
 
-INSERT INTO activites_classifications (activity_id, distance, fitness_group, from_range, end_range) VALUES
-    (3, 0.1, 1, "0:03:45", "0:05:00"),
-    (3,0.1, 2, "0:02:30", "0:03:45"),
-    (3,0.1,3,"0:02:00",	"0:02:30"),
-     (3,0.1,4,"0:01:30",	"0:02:00"),
-      (3,0.1,5,"0:00:00",	"0:01:30");
+INSERT INTO activites_classifications (activity_id, distance, level_id, from_range, end_range) VALUES
+    (3, 100, 1, "0:03:45", "0:05:00"),
+    (3,100, 2, "0:02:30", "0:03:45"),
+    (3,100,3,"0:02:00",	"0:02:30"),
+     (3,100,4,"0:01:30",	"0:02:00"),
+      (3,100,5,"0:00:00",	"0:01:30");
 
-INSERT INTO activites_classifications (activity_id, distance, fitness_group, from_range, end_range) VALUES
-    (3, 0.4, 1, "0:15:01", "0:20:00"),
-    (3,0.4, 2, "0:10:01", "0:15:00"),
-    (3,0.4,3,"0:08:01",	"0:10:00"),
-     (3,0.4,4,"0:06:01",	"0:08:00"),
-      (3,0.4,5,"0:00:00",	"0:06:00");
+INSERT INTO activites_classifications (activity_id, distance, level_id, from_range, end_range) VALUES
+    (3, 400, 1, "0:15:01", "0:20:00"),
+    (3,400, 2, "0:10:01", "0:15:00"),
+    (3,400,3,"0:08:01",	"0:10:00"),
+     (3,400,4,"0:06:01",	"0:08:00"),
+      (3,400,5,"0:00:00",	"0:06:00");
 

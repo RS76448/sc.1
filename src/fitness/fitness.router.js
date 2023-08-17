@@ -9,4 +9,5 @@ router.get('/addSchedule',Fitnesscontroller.addSchedule)
 router.get('/fetchdaysoptionvalue/:dayscode',Fitnesscontroller.fetchdaysoptionvalue)
 router.get('/fetchactivitylevel/:activity_id/:time/:distance',Fitnesscontroller.fetchactivitylevel)
 router.post('/generatezonesreport',Fitnesscontroller.generatezonesreport)
+router.get('/getdistanceforactivity/:activity',Fitnesscontroller.getdistanceforactivity)
 module.exports=router

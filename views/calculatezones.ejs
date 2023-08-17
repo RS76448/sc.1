@@ -27,7 +27,7 @@
         <div class="form-group row">
             <label for="numDays" class="col-sm-3 col-form-label">Activity name:</label>
             <div class="col-sm-6">
-                <select class="form-control" name="selectedOption" id="activityname">
+                <select class="form-control" name="selectedOption" id="activityname" onchange="getdistance()">
                     <option value="null">Please select a value</option>
                    <% activities.map((e)=>{%>
                           return `<option value="<%=e.id%>"><%=e.activity_name%></option>`
@@ -37,9 +37,10 @@
             </div>
         </div>
         <div class="form-group row">
-            <label for="numDays" class="col-sm-3 col-form-label">Time trial of 5KM:</label>
+            <label for="numDays" class="col-sm-3 col-form-label" id="timetrial">Time trial:</label>
+            <input type="hidden" id="hiddendistance"/>
             <div class="col-sm-6">
-                <input type="text" class="form-control" id="fivetime" placeholder="Enter time trial of 5KM" onchange="calculatepace()">
+                <input type="text" class="form-control" id="fivetime" placeholder="Enter time trial" onchange="calculatepace()">
              
             </div>
         </div>
@@ -65,7 +66,7 @@
                 <button onclick="generatereport()" class="btn btn-primary" id="generateButton">Get Zones report</button>
             </div>
         </div>
-        <span id="giventime" style="margin-right: 50px; font-size: 15px;"></span><span style="margin-left: 50px; font-size: 15px;" id="outputtime"></span>
+        <span id="activitysel" style="margin-right: 50px; font-size: 15px;"></span> <span id="giventime" style="margin-right: 50px; font-size: 15px;"></span><span style="margin-left: 50px; font-size: 15px;" id="outputtime"></span>
         <table id="jsonTable" class="display">
             
             <thead>
@@ -85,8 +86,8 @@
 
         let dataTable = $('#jsonTable').DataTable({
     columns: [
-        { data: 'activity', title: 'Activity' },
         { data: 'zone', title: 'Zone' },
+        { data: 'name', title: 'Zone Name' },
         { data: 'offsetstart', title: 'Offset Start' },
         { data: 'offsetend', title: 'Offset End' },
         { data: 'pacestart', title: 'Pace Start Range' },
@@ -99,8 +100,9 @@
 function generatereport() {
     // ...
     let activity_id = $("#activityname").val();
+    let activitysel = $("#activitysel");
     let fitnesslevelid = $("#fitnesslevelid").val();
-    let distance = 5;
+    let distance = $("#hiddendistance").val();
     let time = $("#fivetime").val();
     let giventime = $("#giventime");
     let outputtime = $("#outputtime");
@@ -128,6 +130,7 @@ function generatereport() {
             // Loop through each alldates object and add its weekdates to the table
             giventime.html("Given time: "+jsonData.otherdata.giventime);
             outputtime.html("Output time: "+jsonData.otherdata.outputtime);
+            activitysel.html("Activity: "+jsonData.otherdata.activity);
             jsonData.zonesdata.forEach(dateObj => {
                 console.log("dateObj",dateObj)
                 dataTable.row.add(dateObj).draw();
@@ -168,10 +171,10 @@ function calculatepace(){
           let activity_id = $("#activityname").val();
           let fitnesslevelid = $("#fitnesslevelid");
             let pace = $("#pace");
-            let dis=5
+            let dis=$("#hiddendistance").val();
             let speed=dis/(fivetime/60);
            
-            let speedinmin=Math.floor(speed);
+            let speedinmin=speed.toFixed(2);
             pace.html(speedinmin+" km/hr");
 
             let fitnesslevel = $("#fitnesslevel");
@@ -181,11 +184,26 @@ function calculatepace(){
                 .then((data) => {
                     // alert(data)
                     // console.log(data)
+
                     fitnesslevelid.html(data?.activitylevel?.level.id)
                     fitnesslevel.html(data?.activitylevel?.level.level)
                 })
         }
-        
+
+
+function getdistance(){
+    let activityname=$("#activityname").val();
+    let distance=$("#hiddendistance");
+    let timetrial=$("#timetrial");
+    fetch(`<%base_url%>/yofit/getdistanceforactivity/${activityname}`)
+                .then(res => res.json())
+                .then((data) => {
+                    // alert(data)
+                    // console.log(data)
+                    timetrial.html("Time trial of "+data.distanceforactivity+" KM")
+                    distance.val(data.distanceforactivity)
+                })
+}
     </script>
 </body>
 

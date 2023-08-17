@@ -31,20 +31,43 @@ module.exports = {
         const activities = await db.activities.sync().then(() => {
             return db.activities.findAll()
         })
+        
         return res.render("calculatezones.ejs", {
             base_url,
             activities
         })
     },
+    getdistanceforactivity: async (req, res) => {
+        const activity=req.params.activity;
+        let distanceforactivity=0;
+        const distance=await db.activites_classification.sync().then(()=>{
+            return db.activites_classification.findAll({
+                where:{
+                    activity_id:parseInt(activity)
+                }
+            })
+        })
+        console.log("distance",distance)
+        try{
+            distanceforactivity=distance[0].distance/1000
+        }catch(e){
+            distanceforactivity=0
+        }
+        // const gettimerangeMinandMax=distance
+        return res.json({distanceforactivity})
+    },
     fetchactivitylevel: async (req, res) => {
         const {activity_id,time,distance}=req.params
+        const changedistancetom=(distance)=>(distance)*1000;
         const formattedtime=convertToSQLTimeFormat(time)
-        const giventime=formattedtime/parseInt(distance)
+        const giventime=formattedtime/changedistancetom(distance)
+        const formatteddistance=changedistancetom(distance)
+        console.log("distance",distance)
         const activitylevel = await db.activites_classification.sync().then(() => {
             return db.activites_classification.findOne({
                 where: {
                     activity_id: parseInt(activity_id),
-                    distance: distance,
+                    distance: formatteddistance,
                     from_range: {
                       [Op.lte]: formattedtime
                     },
@@ -55,6 +78,7 @@ module.exports = {
                   include: [db.activities, db.levels]
             })
         })
+        console.log("formatteddistance",formatteddistance)
         return res.json({ activitylevel })
     },
     generatezonesreport: async (req, res) => {
@@ -64,7 +88,8 @@ module.exports = {
             distance,
             time
         }=req.body;
-        const formatteddistance=parseInt(distance)
+        const changedistancetom=(distance)=>(distance)*1000;
+        const formatteddistance=changedistancetom(distance)
         const formattedtime=parseInt(time)
         const outputdistance=formattedtime/formatteddistance;
         console.log("outputdistance",outputdistance)
@@ -92,6 +117,7 @@ module.exports = {
             }
         })
         const otherdata={
+            activity:zones[0].activity.activity_name,
             giventime:formattedtime,
             outputtime:outputdistance,
         }
