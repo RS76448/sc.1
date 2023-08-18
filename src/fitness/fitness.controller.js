@@ -53,7 +53,7 @@ module.exports = {
         }
         // const {min,max}=getminandmaxtimerange(distance)
         // const gettimerangeMinandMax=distance
-        return res.json({distanceforactivity,min,max})
+        return res.json({distanceforactivity})
     },
     fetchactivitylevel: async (req, res) => {
         const {activity_id,time,distance}=req.params
