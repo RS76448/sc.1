@@ -560,3 +560,27 @@ INSERT INTO phasesubactivity (phase_id, workout_id, subworkout_id) VALUES
 (1, 4, 3),
 (1, 5, 8);
 
+
+
+CREATE TABLE WorkoutSchedule (
+    id INTEGER PRIMARY KEY AUTOINCREMENT, 
+    week INTEGER NOT NULL,
+    date DATE NOT NULL,
+    day VARCHAR(10) NOT NULL,
+    total_quota_for_week VARCHAR(10) NOT NULL,
+    day_quota VARCHAR(10) NOT NULL,
+    phase VARCHAR(50) NOT NULL,
+    workout VARCHAR(50) NOT NULL,
+    sub_workout VARCHAR(50) NOT NULL
+);
+
+
+CREATE TABLE TrainingZones (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    zone VARCHAR(50) NOT NULL,
+    zone_name VARCHAR(255) NOT NULL,
+    offset_start DECIMAL(10, 3) NOT NULL,
+    offset_end DECIMAL(10, 3) NOT NULL,
+    pace_start_range DECIMAL(10, 3) NOT NULL,
+    pace_end_range DECIMAL(10, 3) NOT NULL
+);

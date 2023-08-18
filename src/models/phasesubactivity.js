@@ -7,7 +7,7 @@ module.exports = function(sequelize, DataTypes) {
 },
         phase_id: {
     type: DataTypes.INTEGER,
-    references: { model: 'phase', key: 'id' }
+    references: { model: 'phasename', key: 'id' }
 },
         workout_id: {
     type: DataTypes.INTEGER,
@@ -23,7 +23,7 @@ module.exports = function(sequelize, DataTypes) {
     });
     phasesubactivity.associate = function(models) {{
         phasesubactivity.belongsTo(models.subworkout, { foreignKey: 'subworkout_id', targetKey: 'id' });
-        phasesubactivity.belongsTo(models.phase, { foreignKey: 'phase_id', targetKey: 'id' });
+        phasesubactivity.belongsTo(models.phasename, { foreignKey: 'phase_id', targetKey: 'id' });
         phasesubactivity.belongsTo(models.workout, { foreignKey: 'workout_id', targetKey: 'id' });
     }};
     return phasesubactivity;

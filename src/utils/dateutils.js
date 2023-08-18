@@ -1,12 +1,35 @@
+// function getNextCycleDate(inputDate, combosArray) {
+
+//     inputDate = new Date(inputDate);
+//     const dayIndex = inputDate.getDay();
+//     const nextCycleDayIndex = combosArray[0];
+//     const daysUntilNextCycle = (nextCycleDayIndex + 7 - dayIndex) % 7;
+
+//     const nextCycleDate = new Date(inputDate);
+//     if (daysUntilNextCycle === 0) {
+//         nextCycleDate.setDate(nextCycleDate.getDate() + 7);
+//     }
+//     else {
+//         nextCycleDate.setDate(nextCycleDate.getDate() + daysUntilNextCycle);
+//     }
+//     console.log("nextCycleDate", nextCycleDate)
+//     return nextCycleDate;
+// }
+
+
 function getNextCycleDate(inputDate, combosArray) {
 
     inputDate = new Date(inputDate);
+    const ifsunday=(day)=>{if(day==0) {return 7} else {return day}}
+    const backfromsunday=(day)=>{if(day==7) {return 0} else {return day}}
     const dayIndex = inputDate.getDay();
-    const nextCycleDayIndex = combosArray[0];
-    const daysUntilNextCycle = (nextCycleDayIndex + 7 - dayIndex) % 7;
-
+    const sortedCombosArray = [...combosArray].map(ifsunday).sort((a, b) => a - b); // Ensure the days are sorted
+    const nextCycleDayIndex = sortedCombosArray[0]
+    console.log("sortedCombosArray", sortedCombosArray)
+    const daysUntilNextCycle = (sortedCombosArray[0] + 7 - dayIndex) % 7;
+    
     const nextCycleDate = new Date(inputDate);
-    if (daysUntilNextCycle === 0) {
+    if (daysUntilNextCycle === 0 ) {
         nextCycleDate.setDate(nextCycleDate.getDate() + 7);
     }
     else {
@@ -16,6 +39,36 @@ function getNextCycleDate(inputDate, combosArray) {
     return nextCycleDate;
 }
 
+// function getNextCycleDate(inputDate, combosArray) {
+//     inputDate = new Date(inputDate);
+//     const dayIndex = inputDate.getDay(); // 0 for Sunday, 1 for Monday, ..., 6 for Saturday
+//     const sortedCombosArray = [...combosArray].sort((a, b) => a - b); // Ensure the days are sorted
+
+//     let nextCycleDayIndex;
+
+//     if (dayIndex === 1 && sortedCombosArray.includes(1)) {
+//         // If today is Monday and Monday is in the combosArray
+//         return inputDate;
+//     } else if (dayIndex === 1) {
+//         // If today is Monday, but Monday is not in the combosArray
+//         nextCycleDayIndex = sortedCombosArray.find(day => day > dayIndex);
+//     } else {
+//         // For all other days
+//         nextCycleDayIndex = sortedCombosArray.find(day => day > dayIndex);
+//         if (nextCycleDayIndex === undefined) {
+//             // If no day later in the week is in the combosArray, set the next cycle to the next Monday
+//             nextCycleDayIndex = 1;
+//         }
+//     }
+
+//     const daysUntilNextCycle = (nextCycleDayIndex - dayIndex + 7) % 7;
+
+//     const nextCycleDate = new Date(inputDate);
+//     nextCycleDate.setDate(nextCycleDate.getDate() + daysUntilNextCycle);
+
+//     console.log("nextCycleDate", nextCycleDate);
+//     return nextCycleDate;
+// }
 
 
 

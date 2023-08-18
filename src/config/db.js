@@ -36,6 +36,8 @@ let models = [
     require("../models/phasesubactivity.js"),
     require("../models/subworkout.js"),
     require("../models/workout.js"),
+    require("../models/WorkoutSchedule.js"),
+    require("../models/TrainingZones.js"),
 
 
 ]
