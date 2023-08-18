@@ -2,19 +2,19 @@ const Sequelize = require('sequelize')
 
 var db = {}
 
-// const sequelize = new Sequelize('fitness', 'root', '', {
-//     host: 'localhost',
-//     port: 3306,
-//     dialect: 'mysql',
-//     logging: false
-// });
-
-const sequelize = new Sequelize('running_schedule', 'root', 'Fitnessapp#121', {
-    host: '0.0.0.0',
+const sequelize = new Sequelize('fitness', 'root', '', {
+    host: 'localhost',
     port: 3306,
     dialect: 'mysql',
     logging: false
 });
+
+// const sequelize = new Sequelize('running_schedule', 'root', 'Fitnessapp#121', {
+//     host: '0.0.0.0',
+//     port: 3306,
+//     dialect: 'mysql',
+//     logging: false
+// });
 
 
 sequelize.authenticate()

@@ -29,6 +29,10 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.DECIMAL(10, 3),
             allowNull: false,
         },
+        identifier:{
+            type: DataTypes.STRING(50),
+            allowNull: false,
+        }
     }, {
         timestamps: false,
         tablename:"trainingzones"

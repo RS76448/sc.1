@@ -71,6 +71,10 @@
                 <button onclick="generatereport()" class="btn btn-primary" id="generateButton">Generate Report</button>
             </div>
         </div>
+
+        <div class="form-group row">
+            <span class="col-sm-6" id="uid" style="font-size: small;"></span>
+        </div >
         <table id="jsonTable" class="display">
             <thead>
                 <!-- Table header cells will be added here -->
@@ -162,6 +166,7 @@ function generatereport() {
             let daysoptions = $("#daysoptions").val();
             let comboselem = $("#combos").val();
             let phaseno = $("#phaseno").val();
+            let uid= $("#uid");
             let options = {
                 startdate,
                 daysoptions,
@@ -174,7 +179,7 @@ function generatereport() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(options)
             };
-    fetch(`<%base_url%>/yofit/generatereportv2`, requestOptions)
+    fetch(`<%base_url%>/yofit/generateworkoutreportv2`, requestOptions)
         .then(res => res.json())
         .then((data) => {
             
@@ -182,7 +187,7 @@ function generatereport() {
 
             // Clear the existing table data
             dataTable.clear();
-
+            uid.html("Random string to get report in future is "+jsonData.randomstring);
             // Loop through each alldates object and add its weekdates to the table
             jsonData.alldates.forEach(dateObj => {
                 dataTable.rows.add(dateObj.weekdates).draw();
@@ -208,7 +213,7 @@ function generatereport() {
                             // Append the new option to the second select element
                             comboselem.append(newOption);
                         }
-                        let newOption = `<option value="${option.id}">${option.value}</option>`;
+                        let newOption = `<option value="${option.value}">${option.value}</option>`;
                         // Append the new option to the second select element
                         comboselem.append(newOption);
                     })
@@ -218,12 +223,13 @@ function generatereport() {
         function fetchdaysoptionvalue(){
             let optionvalue = $("#daysoptions").val();
             let comboselem = $("#combos").val();
+            let numofdays = $("#daysoptions").val();
             // clear prev combos
             // alert("comboselem: " + comboselem + ", optionvalue: " + optionvalue);
 
 
             console.log(optionvalue)
-            fetch(`<%base_url%>/yofit/fetchdaysoptionvalue/${comboselem}`)
+            fetch(`<%base_url%>/yofit/fetchdaysoptionvalue/${comboselem}/${numofdays}`)
                 .then(res => res.json())
                 .then((data) => {
                 //    console.log(data)

@@ -25,7 +25,11 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING(10),
             allowNull: false,
         },
-        phase: {
+        phase_id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+        phase_name: {
             type: DataTypes.STRING(50),
             allowNull: false,
         },
@@ -37,6 +41,18 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING(50),
             allowNull: false,
         },
+        numofrunningdays:{
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+        daysoption:{
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+        identifier:{
+            type: DataTypes.STRING(50),
+            allowNull: false,
+        }
     }, {
         timestamps: false,
         tablename:"workout_schedule"

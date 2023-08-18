@@ -4,7 +4,7 @@ function sliceOccurences(data,element,suitablesubactivityid,workout_id) {
         if (item.e==element && item.occured>1) {
             const ofindexwithsaidworkoutid=item.index.filter(e=>e.workout_id==workout_id).length
 
-            console.log("item",item)
+            // console.log("item",item)
             if(ofindexwithsaidworkoutid>1){
                 // const indexofindex = item.index.findIndex(e=>e==suitablesubactivityid)
            
@@ -55,5 +55,15 @@ function sliceOccurences(data,element,suitablesubactivityid,workout_id) {
 // }
 
 
+function generateRandomString(length = 12) {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return result;
+}
 
-module.exports = {sliceOccurences}
+// Usage
+
+module.exports = {sliceOccurences,generateRandomString}

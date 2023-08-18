@@ -1,16 +1,27 @@
 const express=require('express');
 const router=express.Router();
 const Fitnesscontroller=require("./fitness.controller")
-router.get('/',Fitnesscontroller.renderFn)
-router.get('/v2',Fitnesscontroller.renderFn1)
-router.get('/fetchoptions/:days',Fitnesscontroller.fetchoptions)
-router.post('/generatereport',Fitnesscontroller.generatereport)
-router.post('/generatereportv2',Fitnesscontroller.generatereportv2)
-router.get('/calculatezones',Fitnesscontroller.getzones)
-router.get('/addSchedule',Fitnesscontroller.addSchedule)
-router.get('/fetchdaysoptionvalue/:dayscode',Fitnesscontroller.fetchdaysoptionvalue)
-router.get('/fetchactivitylevel/:activity_id/:time/:distance',Fitnesscontroller.fetchactivitylevel)
-router.post('/generatezonesreport',Fitnesscontroller.generatezonesreport)
 
+//weekly workout report
+router.get('/generateworkoutreport',Fitnesscontroller.renderGenerateWorkoutReportView)
+      .post('/generateworkoutreport',Fitnesscontroller.generatereport);
+router.get('/generateworkoutreportv2',Fitnesscontroller.renderGenerateWorkoutReportViewv2)
+       .post('/generateworkoutreportv2',Fitnesscontroller.generatereportv2);
+router.get('/getworkoutreport',Fitnesscontroller.renderWorkoutreportview)
+       .post('/getworkoutreport',Fitnesscontroller.showWorkoutreport);
+
+
+
+router.get('/fetchoptions/:days',Fitnesscontroller.fetchoptions)
+router.get('/fetchdaysoptionvalue/:options/:numofdays',Fitnesscontroller.fetchdaysoptionvalue)
+router.get('/fetchactivitylevel/:activity_id/:time/:distance',Fitnesscontroller.fetchactivitylevel)
+
+
+
+//zones
+router.get('/generatezonesreport',Fitnesscontroller.renderGeneratezonesReportView)
+        .post('/generatezonesreport',Fitnesscontroller.generatezonesreport);
 router.get('/getdistanceforactivity/:activity',Fitnesscontroller.getdistanceforactivity)
+router.get('/getzonesreport',Fitnesscontroller.renderZonesReportview)
+       .post('/getzonesreport',Fitnesscontroller.showzonesreport);
 module.exports=router

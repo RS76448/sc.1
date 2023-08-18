@@ -22,9 +22,9 @@
 
 <body>
     <div class="container">
-        <h1 class="mt-4">Calculate Zones</h1>
+        <h1 class="mt-4">Get Zones Report</h1>
 
-        <div class="form-group row">
+        <!-- <div class="form-group row">
             <label for="numDays" class="col-sm-3 col-form-label">Activity name:</label>
             <div class="col-sm-6">
                 <select class="form-control" name="selectedOption" id="activityname" onchange="getdistance()">
@@ -60,17 +60,19 @@
      
         <div class="form-group row">
             <span class="col-sm-6" id="optionsvalue" style="font-size: small;"></span>
-        </div >
+        </div > -->
+        <div class="form-group row mt-4">
+            <label for="datePicker" class="col-sm-3 col-form-label">Unique identifier:</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" name="uid" id="uid">
+            </div>
+        </div>
         <div class="form-group row">
             <div class="col-sm-9 offset-sm-3">
                 <button onclick="generatereport()" class="btn btn-primary" id="generateButton">Get Zones report</button>
             </div>
         </div>
         <span id="activitysel" style="margin-right: 50px; font-size: 15px;"></span> <span id="giventime" style="margin-right: 50px; font-size: 15px;"></span><span style="margin-left: 50px; font-size: 15px;" id="outputtime"></span>
-        
-        <div class="form-group row">
-            <span class="col-sm-6" id="uid" style="font-size: small;"></span>
-        </div >
         <table id="jsonTable" class="display">
             
             <thead>
@@ -91,11 +93,11 @@
         let dataTable = $('#jsonTable').DataTable({
     columns: [
         { data: 'zone', title: 'Zone' },
-        { data: 'name', title: 'Zone Name' },
-        { data: 'offsetstart', title: 'Offset Start' },
-        { data: 'offsetend', title: 'Offset End' },
-        { data: 'pacestart', title: 'Pace Start Range' },
-        { data: 'paceend', title: 'Pace End Range' },
+        { data: 'zone_name', title: 'Zone Name' },
+        { data: 'offset_start', title: 'Offset Start' },
+        { data: 'offset_end', title: 'Offset End' },
+        { data: 'pace_start_range', title: 'Pace Start Range' },
+        { data: 'pace_end_range', title: 'Pace End Range' },
       
      
     ]
@@ -103,42 +105,28 @@
 
 function generatereport() {
     // ...
-    let activity_id = $("#activityname").val();
-    let activitysel = $("#activitysel");
-    let fitnesslevelid = $("#fitnesslevelid").val();
-    let distance = $("#hiddendistance").val();
-    let time = $("#fivetime").val();
-    let giventime = $("#giventime");
-    let outputtime = $("#outputtime");
-    let uid= $("#uid");
-   
+    let uid=$("#uid").val();
             let options = {
-                activity_id,
-                fitnesslevelid,
-                distance,
-                time
+                identifier:uid
             }
+        
             const requestOptions = {
 
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(options)
             };
-    fetch(`<%base_url%>/yofit/generatezonesreport`, requestOptions)
+    fetch(`<%base_url%>/yofit/getzonesreport`, requestOptions)
         .then(res => res.json())
         .then((data) => {
             
             const jsonData = data;
-            uid.html("Random string to get report in future is "+jsonData.randomstring);
+
             // Clear the existing table data
             dataTable.clear();
-            console.log("jsonData",jsonData)
-            // Loop through each alldates object and add its weekdates to the table
-            giventime.html("Given time: "+jsonData.otherdata.giventime);
-            outputtime.html("Output time: "+jsonData.otherdata.outputtime);
-            activitysel.html("Activity: "+jsonData.otherdata.activity);
-            jsonData.zonesdata.forEach(dateObj => {
-                console.log("dateObj",dateObj)
+          
+            jsonData.zonesreport.forEach(dateObj => {
+           
                 dataTable.row.add(dateObj).draw();
             });
         })

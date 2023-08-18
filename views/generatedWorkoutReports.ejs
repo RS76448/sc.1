@@ -22,9 +22,14 @@
 
 <body>
     <div class="container">
-        <h1 class="mt-4">Generate Report</h1>
-
+        <h1 class="mt-4">Get Report</h1>
         <div class="form-group row mt-4">
+            <label for="datePicker" class="col-sm-3 col-form-label">Unique identifier:</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" name="uid" id="uid">
+            </div>
+        </div>
+        <!-- <div class="form-group row mt-4">
             <label for="datePicker" class="col-sm-3 col-form-label">Start Date:</label>
             <div class="col-sm-6">
                 <input type="date" class="form-control" name="selectedDate" id="startdate">
@@ -56,6 +61,16 @@
         <div class="form-group row">
             <span class="col-sm-6" id="optionsvalue" style="font-size: small;"></span>
         </div >
+        <div class="form-group row">
+            <label for="optionsDropdown" class="col-sm-3 col-form-label">Select Options:</label>
+            <div class="col-sm-6">
+                <select class="form-control" name="selectedOption" id="phaseno" onchange="fetchdaysoptionvalue()">
+                    <option value="null">Please select a value</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                </select>
+            </div>
+        </div> -->
         <div class="form-group row">
             <div class="col-sm-9 offset-sm-3">
                 <button onclick="generatereport()" class="btn btn-primary" id="generateButton">Generate Report</button>
@@ -134,26 +149,25 @@
 
         let dataTable = $('#jsonTable').DataTable({
     columns: [
-        { data: 'newweek', title: 'Week' },
-        { data: 'newdate', title: 'Date' },
-        { data: 'newday', title: 'Day' },
-        { data: 'totalquota', title: 'Total Quota for week' },
-        { data: 'quota', title: 'Day Quota' },
-        
-        { data: 'workoutname', title: 'workout' },
+        { data: 'week', title: 'Week' },
+        { data: 'date', title: 'Date' },
+        { data: 'day', title: 'Day' },
+        { data: 'total_quota_for_week', title: 'Total Quota for week' },
+        { data: 'day_quota', title: 'Day Quota' },
+        {data:"phase_name",title:"Phase"},
+        { data: 'workout', title: 'workout' },
+        {data:'sub_workout',title:'Sub workout'},
+        {data:'daysoption',title:'Days Option'},
+        {data:'numofrunningdays',title:'Number of days in week'},
      
     ]
 });
 
 function generatereport() {
-    // ...
-    let startdate = $("#startdate").val();
-            let daysoptions = $("#daysoptions").val();
-            let comboselem = $("#combos").val();
+   
+    let uid=$("#uid").val();
             let options = {
-                startdate,
-                daysoptions,
-                comboselem
+                identifier:uid
             }
             const requestOptions = {
 
@@ -161,7 +175,7 @@ function generatereport() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(options)
             };
-    fetch(`<%base_url%>/yofit/generateworkoutreport`, requestOptions)
+    fetch(`<%base_url%>/yofit/getworkoutreport`, requestOptions)
         .then(res => res.json())
         .then((data) => {
             
@@ -171,8 +185,8 @@ function generatereport() {
             dataTable.clear();
 
             // Loop through each alldates object and add its weekdates to the table
-            jsonData.alldates.forEach(dateObj => {
-                dataTable.rows.add(dateObj.weekdates).draw();
+            jsonData.workoutreports.forEach(dateObj => {
+                dataTable.row.add(dateObj).draw();
             });
         })
 }
@@ -195,7 +209,7 @@ function generatereport() {
                             // Append the new option to the second select element
                             comboselem.append(newOption);
                         }
-                        let newOption =  `<option value="${option.value}">${option.value}</option>`;
+                        let newOption = `<option value="${option.value}">${option.value}</option>`;
                         // Append the new option to the second select element
                         comboselem.append(newOption);
                     })
