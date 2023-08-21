@@ -64,6 +64,6 @@ module.exports = function(sequelize, DataTypes) {
         }
     }, {
         timestamps: false,
-        tablename:"workout_schedule"
+        tableName:"workout_schedule"
     });
 };

@@ -683,7 +683,7 @@ CREATE TABLE goals (
     `short_workout_2` DECIMAL(5, 2) NOT NULL,
     `activity_id` INT,
     `goal` VARCHAR(255),
-    FOREIGN KEY (`activity`) REFERENCES activities(id)
+    FOREIGN KEY (`activity_id`) REFERENCES activities(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
