@@ -38,6 +38,7 @@ let models = [
     require("../models/workout.js"),
     require("../models/WorkoutSchedule.js"),
     require("../models/TrainingZones.js"),
+    require("../models/workoutdonebyuser.js"),
 
 
 ]

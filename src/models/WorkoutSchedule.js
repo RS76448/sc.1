@@ -52,6 +52,11 @@ module.exports = function(sequelize, DataTypes) {
         identifier:{
             type: DataTypes.STRING(50),
             allowNull: false,
+        },
+        actual_workout: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+            defaultValue: 0
         }
     }, {
         timestamps: false,

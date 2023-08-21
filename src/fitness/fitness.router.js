@@ -9,8 +9,9 @@ router.get('/generateworkoutreportv2',Fitnesscontroller.renderGenerateWorkoutRep
        .post('/generateworkoutreportv2',Fitnesscontroller.generatereportv2);
 router.get('/getworkoutreport',Fitnesscontroller.renderWorkoutreportview)
        .post('/getworkoutreport',Fitnesscontroller.showWorkoutreport);
-
-
+router.get('/getweekvolume',Fitnesscontroller.rendergetweekvolume)
+       .post('/getweekvolume',Fitnesscontroller.getweekvolume);
+router.post('/updateweekvalues',Fitnesscontroller.updateweekvalues);
 
 router.get('/fetchoptions/:days',Fitnesscontroller.fetchoptions)
 router.get('/fetchdaysoptionvalue/:options/:numofdays',Fitnesscontroller.fetchdaysoptionvalue)

@@ -256,18 +256,43 @@ module.exports = {
             5: "5_days",
         }
       
-        const workouts=await db.workout.sync().then(async()=>{
-            return db.workout.findAll()
+        const workouts=await db.days_options.sync().then(async()=>{
+            return db.days_options.findOne({
+                where:{
+                    run_days_per_week:parseInt(daysoptions),
+                    options:parseInt(comboselem)
+
+                }
+            })
         })
       
-        const workoutnamemapping = [
-           { index:1,value:"long_workout"},
+        // const workoutnamemapping = [
+        //    { index:1,value:"long_workout"},
              
-             {index:2,value:"medium_workout_1"},
-             {index:3,value:"medium_workout_2"},
-             {index:4,value:"short_workout_1"},
-             {index:5,value:"short_workout_2"},
+        //      {index:2,value:"medium_workout_1"},
+        //      {index:3,value:"medium_workout_2"},
+        //      {index:4,value:"short_workout_1"},
+        //      {index:5,value:"short_workout_2"},
+        // ]
+        const workoutnamemapping = [
+            {index:1,value:workouts.sunday,day:"Sunday"},
+            {index:2,value:workouts.monday,day:"Monday"},
+            {index:3,value:workouts.tuesday,day:"Tuesday"},
+            {index:4,value:workouts.wednesday,day:"Wednesday"},
+            {index:5,value:workouts.thursday,day:"Thursday"},
+            {index:6,value:workouts.friday, day:"Friday"},
+            {index:7,value:workouts.saturday,day:"Saturday"},
         ]
+
+        const workoutmapping2={
+            "Long Workout":"long_workout",
+            "Medium Workout 1":"medium_workout_1",
+            "Medium Workout 2":"medium_workout_2",
+            "Short Workout 1":"short_workout_1",
+            "Short Workout 2":"short_workout_2",
+        
+        }
+        console.log("workoutnamemapping",workoutnamemapping)
         const combosArray = dayscombo.dayscode.split("").map(e => parseInt(e));
         const unitofexersice = "KM"
         const totalweeks = await db.running_schedule.count({ distinct: "week" });
@@ -350,16 +375,18 @@ module.exports = {
                     
                  
                     let occurance=numberofoccurenceMutable.find(e=>e.e==phasenofortheweek.phase)
-                    let indexofacitivity=occurance.index.findIndex(e=>e.workout_id===workoutnamespliceable[0]["index"])
-                   
+                    let desiganatedworkoutfortheday=workoutnamespliceable.find(d=>d.day==day.newday)["value"]
+                    console.log("desiganatedworkoutfortheday",desiganatedworkoutfortheday)
+                    let indexofacitivity=occurance.index.findIndex(e=>e.workout.workout==desiganatedworkoutfortheday)
+                    console.log("indexofacitivity",indexofacitivity)
                     let subactivityfortheday=occurance.index[indexofacitivity]
                     if(indexofacitivity==-1 || indexofacitivity==undefined){
-                        return res.json({indexofacitivity,numberofoccurenceMutable,day,weeknumber,phase:phasenofortheweek.phase,indexofday:index})
+                        return res.json({indexofacitivity,occurance,day,weeknumber,phase:phasenofortheweek.phase,indexofday:index})
                     }
 
                     // let subactivityfortheday=sliceOccurences(numberofoccurenceMutable,phasenofortheweek.phase,workoutnamespliceable[0]["index"])
                    
-                    day.quota = (totalquota * (weekdata[workoutnamespliceable[0]["value"]] / 100)).toFixed(2) + ' ' + unitofexersice
+                    day.quota = (totalquota * (weekdata[workoutmapping2[desiganatedworkoutfortheday]] / 100)).toFixed(2) + ' ' + unitofexersice
                     //  console.log("index of loop i,index",i,index)
                     day.phase=subactivityfortheday.phasename.phase;
                     day.phaseid=subactivityfortheday.phase_id
@@ -373,8 +400,8 @@ module.exports = {
                     
                     newweek.push(day)
                   
-                    sliceOccurences(numberofoccurenceMutable,phasenofortheweek.phase,indexofacitivity,workoutnamespliceable[0]["index"])
-                    workoutnamespliceable.splice(0,1)
+                    sliceOccurences(numberofoccurenceMutable,phasenofortheweek.phase,indexofacitivity,desiganatedworkoutfortheday)
+                    // workoutnamespliceable.splice(0,1)
                     
                     // return res.json(numberofoccurenceMutable)
                 }
@@ -467,5 +494,71 @@ module.exports = {
         })
         return res.json({zonesreport})
     },
+    rendergetweekvolume:async (req, res) => {
+        return res.render("weeklyvolume.ejs", {
+            base_url
+        })
+    },
+    getweekvolume:async (req, res) => {
+        const {identifier}=req.body;
+        const weekvolume=await db.workout_schedule.sync().then(()=>{
+            return db.workout_schedule.findAll({
+                where:{
+                    identifier:identifier
+                  
+                }
+            })
+        });
+        // const newweekvolume = weekvolume.map((e, index) => {
+        //     let totalindextoloop = index + e.numofrunningdays;
+        //     let totalactualworkout = 0;
+        
+        //     for (let i = index; i < totalindextoloop && i < weekvolume.length; i++) {
+        //         totalactualworkout += weekvolume[i].actual_workout;
+        //     }
+        //     e.totalactualworkout="fucker"
+        //     if (index === totalindextoloop - 1) {  // Adjusted the condition
+        //         e.totalactualworkout = totalactualworkout;
+        //     } else {
+        //         e.totalactualworkout = 0;
+        //     }
+        
+        //     return e;
+        // });
+        
+        return res.json({weekvolume:weekvolume})
+    },
+    updateweekvalues:async (req, res) => {
+       
+        const {identifier,weeknumber,allvaluesforweek}=req.body;
+        const removenullfromallvalues=allvaluesforweek.filter(e=>e.actual_workout!='')
+        const updateday=removenullfromallvalues?.map(async (e)=>{
 
+        return db.workout_schedule.sync().then(()=>{
+            console.log("identifier",identifier)
+            console.log("weeknumber",parseInt(weeknumber))
+            console.log("e.actual_workout",parseInt(e.actual_workout))
+            console.log("e.date",new Date(e.date))
+            return db.workout_schedule.update({
+                actual_workout:parseFloat(e.actual_workout)
+            },{
+                where:{
+                    identifier:identifier,
+                  
+                    date:new Date(e.date)
+                }
+            })
+        })
+        
+        //   return  db.workoutdonebyuserforday.sync().then(()=>{
+        //         db.workoutdonebyuserforday.create({
+        //             unique_identifier:identifier,
+        //             given_workout:parseInt(e.given_workout),
+        //             actual_workout:parseInt(e.actual_workout),
+        //             date:new Date(e.date)
+        //         })
+        //     })
+        })
+        return res.json({workoutreports:updateday})
+    }
 }

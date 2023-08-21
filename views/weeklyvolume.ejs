@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EJS Page with Components</title>
+    <!-- Include Bootstrap CSS -->
+    <script src="https://code.jquery.com/jquery-3.7.0.js"
+        integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Include DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Include DataTables JavaScript -->
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="mt-4">Get Weekly Volume Report</h1>
+
+        <!-- 
+        <div class="form-group row">
+            <label for="numDays" class="col-sm-3 col-form-label" id="timetrial">Time trial:</label>
+            <input type="hidden" id="hiddendistance"/>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" id="fivetime" placeholder="Enter time trial" onchange="calculatepace()">
+             
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="numDays" class="col-sm-3 col-form-label">Pace:</label>
+            <div class="col-sm-6">
+              <span class="form-control" id="pace"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="numDays" class="col-sm-3 col-form-label">Fitness Level:</label>
+            <div class="col-sm-6">
+                <input type="hidden" id="fitnesslevelid" value="1"/>
+              <span class="form-control" id="fitnesslevel"></span>
+            </div>
+        </div>
+     
+        <div class="form-group row">
+            <span class="col-sm-6" id="optionsvalue" style="font-size: small;"></span>
+        </div > -->
+        <div class="form-group row mt-4">
+            <label for="datePicker" class="col-sm-3 col-form-label">Unique identifier:</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" name="uid" id="uid">
+            </div>
+        </div>
+      
+        <div class="form-group row">
+            <div class="col-sm-9 offset-sm-3">
+                <button onclick="generatereport()" class="btn btn-primary" id="generateButton">Get Zones report</button>
+            </div>
+        </div>
+        <span id="activitysel" style="margin-right: 50px; font-size: 15px;"></span> <span id="giventime" style="margin-right: 50px; font-size: 15px;"></span><span style="margin-left: 50px; font-size: 15px;" id="outputtime"></span>
+        <table id="jsonTable" class="display">
+            
+            <thead>
+                <!-- Table header cells will be added here -->
+            </thead>
+            <tbody>
+                <!-- Table body rows will be added here -->
+            </tbody>
+        </table>
+        <div class="form-group row">
+            <input type ="button" class="btn btn-primary" value="Submit" onclick="submitreport()"/>
+        </div>
+    </div>
+
+    <!-- Include Bootstrap JS (optional) -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+      
+
+      let dataTable = $('#jsonTable').DataTable({
+        columns: [
+    { data: 'week', title: 'Week' },
+    { data: 'date', title: 'Date' },
+    { data: 'day', title: 'Day' },
+    { data: 'total_quota_for_week', title: 'Total Quota for week' },
+    { data: 'day_quota', title: 'Day Quota' },
+    { 
+        title: 'Actual',
+        data: null,  // This indicates that we'll handle the data manually in the render function
+        render: function(data, type, row) {
+            if (data.actual_workout !== null && data.actual_workout !== undefined && data.actual_workout !== '' && data.actual_workout !== 0) {
+                // return data.actual_workout
+                return `<input type="number" id="${data.date}" name="${data.day_quota}" class="doneornot-input" value="${data.actual_workout}" /> KM`
+            } else {
+                return `<input type="number" id="${data.date}"  name="${data.day_quota}" class="doneornot-input" />  KM`;
+            }
+        }
+    },
+
+
+        {data:"phase_name",title:"Phase"},
+        { data: 'workout', title: 'workout' },
+        {data:'sub_workout',title:'Sub workout'},
+        {data:'daysoption',title:'Days Option'},
+        {data:'numofrunningdays',title:'Number of days in week'},
+     
+    ]
+});
+
+function getDoneOrNotValues() {
+    let values = [];
+    $('#jsonTable tbody tr').each(function() {
+        let inputBox = $(this).find('.doneornot-input');
+        let value = inputBox.val();
+        let id = inputBox.attr('id');
+        let name=inputBox.attr('name');
+        values.push({ date: id, actual_workout: value,given_workout:name });
+    });
+    return values;
+}
+
+function submitreport(){
+const allvaluesforweek=getDoneOrNotValues()
+const updateweekvalues = {
+                allvaluesforweek:allvaluesforweek,
+            
+                identifier:$("#uid").val()
+            }
+        
+            const requestOptions = {
+
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(updateweekvalues)
+            };
+    fetch(`<%base_url%>/yofit/updateweekvalues`, requestOptions)
+        .then(res => res.json())
+        .then((data) => {
+            const jsonData = data;
+
+        // Clear the existing table data
+            dataTable.clear();
+
+            jsonData.updateday.forEach(dateObj => {
+
+                dataTable.row.add(dateObj).draw();
+            });
+                    })
+}
+function generatereport() {
+    // ...
+    let uid=$("#uid").val();
+    let weeknumber=$("#weeknumber").val();
+            let options = {
+                identifier:uid,
+                weeknumber:weeknumber
+            }
+        
+            const requestOptions = {
+
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(options)
+            };
+    fetch(`<%base_url%>/yofit/getweekvolume`, requestOptions)
+        .then(res => res.json())
+        .then((data) => {
+            
+            const jsonData = data;
+
+            // Clear the existing table data
+            dataTable.clear();
+          
+            jsonData.weekvolume.forEach(dateObj => {
+           
+                dataTable.row.add(dateObj).draw();
+            });
+        })
+}
+        
+
+      
+function fetchactivity() {
+            
+            let comboselem = $("#activityname");
+            // clear prev combos
+
+            console.log(optionvalue)
+            fetch(`<%base_url%>/yofit/fetchactivity`)
+                .then(res => res.json())
+                .then((data) => {
+                    comboselem.empty()
+                    data?.datatosend?.map((option,index) => {
+
+                        console.log(option)
+                        //set initial option value to empty
+                        if(index == 0){
+                            let newOption = `<option value="">Select</option>`;
+                            // Append the new option to the second select element
+                            comboselem.append(newOption);
+                        }
+                        let newOption = `<option value="${option.id}">${option.value}</option>`;
+                        // Append the new option to the second select element
+                        comboselem.append(newOption);
+                    })
+                })
+        }
+
+function calculatepace(){
+          let fivetime = $("#fivetime").val();
+          let activity_id = $("#activityname").val();
+          let fitnesslevelid = $("#fitnesslevelid");
+            let pace = $("#pace");
+            let dis=$("#hiddendistance").val();
+            let speed=dis/(fivetime/60);
+           
+            let speedinmin=speed.toFixed(2);
+            pace.html(speedinmin+" km/hr");
+
+            let fitnesslevel = $("#fitnesslevel");
+          
+            fetch(`<%base_url%>/yofit/fetchactivitylevel/${activity_id}/${fivetime}/${dis}`)
+                .then(res => res.json())
+                .then((data) => {
+                    // alert(data)
+                    // console.log(data)
+
+                    fitnesslevelid.html(data?.activitylevel?.level.id)
+                    fitnesslevel.html(data?.activitylevel?.level.level)
+                })
+        }
+
+
+function getdistance(){
+    let activityname=$("#activityname").val();
+    let distance=$("#hiddendistance");
+    let timetrial=$("#timetrial");
+    fetch(`<%base_url%>/yofit/getdistanceforactivity/${activityname}`)
+                .then(res => res.json())
+                .then((data) => {
+                    // alert(data)
+                    // console.log(data)
+                    timetrial.html("Time trial of "+data.distanceforactivity+" KM")
+                    distance.val(data.distanceforactivity)
+                })
+}
+    </script>
+</body>
+
+</html>

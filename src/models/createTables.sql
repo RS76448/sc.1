@@ -18,6 +18,33 @@ SET NAMES utf8mb4;
 --     exersice_name VARCHAR(20) NOT NULL,
 
 -- )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE days(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    day VARCHAR(255) NOT NULL,
+)
+
+INSERT INTO days (day) VALUES
+    ("Monday"),
+    ("Tuesday"),
+    ("Wednesday"),
+    ("Thursday"),
+    ("Friday"),
+    ("Saturday"),
+    ("Sunday");
+
+CREATE TABLE `days_options` (
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `run_days_per_week` INT,
+    `options` INT,
+    `day` VARCHAR(50),
+    `workout` VARCHAR(50),
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`day`) REFERENCES `days`(`day`) -- Assuming that `day` is the referencing column in the `days` table
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
 CREATE TABLE running_schedule (
     week INT PRIMARY KEY,
     5_days INT,
@@ -174,6 +201,11 @@ INSERT INTO days_options (run_days_per_week, options, monday, tuesday, wednesday
 (2, 4, 'Rest Day', 'Medium Workout 1', 'Rest Day', 'Rest Day', 'Rest Day', 'Rest Day', 'Long Workout'),
 (2, 5, 'Rest Day', 'Medium Workout 1', 'Rest Day', 'Rest Day', 'Rest Day', 'Long Workout', 'Rest Day'),
 (2, 6, 'Rest Day', 'Medium Workout 1', 'Rest Day', 'Rest Day', 'Long Workout', 'Rest Day', 'Rest Day');
+
+
+
+
+
 
 
 CREATE TABLE activities (
@@ -478,6 +510,7 @@ INSERT INTO workout(workout) VALUES
 ("Medium Workout 2"),
 ("Short Workout 1"),
 ("Short Workout 2");
+("Rest Day")
 
 CREATE TABLE subworkout (
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -584,3 +617,44 @@ CREATE TABLE TrainingZones (
     pace_start_range DECIMAL(10, 3) NOT NULL,
     pace_end_range DECIMAL(10, 3) NOT NULL
 );
+
+
+CREATE TABLE workoutdonebyuserforday (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    unique_identifier VARCHAR(100) NOT NULL,
+    
+    date DATE NOT NULL,
+    given_workout INTEGER(20) NOT NULL,
+    actual_workout INTEGER(20) NOT NULL,
+);
+
+
+CREATE TABLE `days_options` (
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `run_days_per_week` INT,
+    `options` INT,
+    `day` VARCHAR(50),
+    `workout` VARCHAR(50),
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`day`) REFERENCES `days`(`day`) -- Assuming that `day` is the referencing column in the `days` table
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+INSERT INTO `days_options` (`id`, `run_days_per_week`, `options`, `monday`, `tuesday`, `wednesday`, `thursday`, `friday`, `saturday`, `sunday`, `dayscode`) VALUES
+(1, 5, 1, 'Rest Day', 'Medium Workout 1', 'Short Workout 1', 'Medium Workout 2', 'Rest Day', 'Short Workout 2', 'Long Workout', '02346'),
+(2, 5, 2, 'Medium Workout 1', 'Short Workout 1', 'Medium Workout 2', 'Rest Day', 'Short Workout', 'Long Workout', 'Rest Day', '12356'),
+(3, 5, 3, 'Short Workout', 'Medium Workout 1', 'Rest Day', 'Short Workout', 'Long Workout', 'Rest Day', 'Medium Workout 2', '01245'),
+(4, 4, 1, 'Rest Day', 'Medium Workout 2', 'Rest Day', 'Medium Workout 2', 'Rest Day', 'Short Workout', 'Long Workout', '0246'),
+(5, 4, 2, 'Medium Workout 1', 'Rest Day', 'Medium Workout 2', 'Rest Day', 'Short Workout', 'Long Workout', 'Rest Day', '1356'),
+(6, 4, 3, 'Rest Day', 'Medium Workout 1', 'Rest Day', 'Short Workout', 'Long Workout', 'Rest Day', 'Medium Workout 2', '0245'),
+(7, 3, 1, 'Rest Day', 'Medium Workout 1', 'Rest Day', 'Medium Workout 2', 'Rest Day', 'Rest Day', 'Long Workout', '024'),
+(8, 3, 2, 'Rest Day', 'Medium Workout 1', 'Rest Day', 'Medium Workout 2', 'Rest Day', 'Long Workout', 'Rest Day', '246'),
+(9, 3, 3, 'Rest Day', 'Rest Day', 'Medium Workout 1', 'Rest Day', 'Medium Workout 2', 'Rest Day', 'Long Workout', '035'),
+(10, 3, 4, 'Medium Workout 1', 'Rest Day', 'Medium Workout 2', 'Rest Day', 'Rest Day', 'Long Workout', 'Rest Day', '136'),
+(11, 3, 5, 'Rest Day', 'Medium Workout 2', 'Rest Day', 'Rest Day', 'Long Workout', 'Rest Day', 'Medium Workout 2', '146'),
+(12, 2, 1, 'Medium Workout 1', 'Rest Day', 'Rest Day', 'Rest Day', 'Rest Day', 'Long Workout', 'Rest Day', '16'),
+(13, 2, 2, 'Rest Day', 'Rest Day', 'Medium Workout 1', 'Rest Day', 'Rest Day', 'Rest Day', 'Long Workout', '03'),
+(14, 2, 3, 'Rest Day', 'Rest Day', 'Medium Workout 1', 'Rest Day', 'Rest Day', 'Long Workout', 'Rest Day', '36'),
+(15, 2, 4, 'Rest Day', 'Medium Workout 1', 'Rest Day', 'Rest Day', 'Rest Day', 'Rest Day', 'Long Workout', '02'),
+(16, 2, 5, 'Rest Day', 'Medium Workout 1', 'Rest Day', 'Rest Day', 'Rest Day', 'Long Workout', 'Rest Day', '26'),
+(17, 2, 6, 'Rest Day', 'Medium Workout 1', 'Rest Day', 'Rest Day', 'Long Workout', 'Rest Day', 'Rest Day', '25');
