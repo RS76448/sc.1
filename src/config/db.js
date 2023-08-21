@@ -39,7 +39,7 @@ let models = [
     require("../models/WorkoutSchedule.js"),
     require("../models/TrainingZones.js"),
     require("../models/workoutdonebyuser.js"),
-
+    require("../models/Goals.js"),
 
 ]
 

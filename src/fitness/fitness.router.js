@@ -7,8 +7,11 @@ router.get('/generateworkoutreport',Fitnesscontroller.renderGenerateWorkoutRepor
       .post('/generateworkoutreport',Fitnesscontroller.generatereport);
 router.get('/generateworkoutreportv2',Fitnesscontroller.renderGenerateWorkoutReportViewv2)
        .post('/generateworkoutreportv2',Fitnesscontroller.generatereportv2);
+router.get('/generateworkoutreportv3',Fitnesscontroller.renderGenerateWorkoutReportViewv3)
+       .post('/generateworkoutreportv3',Fitnesscontroller.generatereportv3);
 router.get('/getworkoutreport',Fitnesscontroller.renderWorkoutreportview)
        .post('/getworkoutreport',Fitnesscontroller.showWorkoutreport);
+
 router.get('/getweekvolume',Fitnesscontroller.rendergetweekvolume)
        .post('/getweekvolume',Fitnesscontroller.getweekvolume);
 router.post('/updateweekvalues',Fitnesscontroller.updateweekvalues);
