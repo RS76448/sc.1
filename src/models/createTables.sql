@@ -619,7 +619,7 @@ CREATE TABLE WorkoutSchedule (
 CREATE TABLE trainingzones (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
     user_id INTEGER,
-    date DATE,
+    date DATETIME,
     zone VARCHAR(50) NOT NULL,
     zone_name VARCHAR(255) NOT NULL,
     offset_start DECIMAL(10, 3) NOT NULL,
@@ -812,19 +812,19 @@ VALUES
 (26, 17, 17, 17, 12, 41, 29, 29, 0, 0, 1, 'Goal X');
 
 
-CREATE TABLE `user`(
+CREATE TABLE `users`(
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
     dateofbirth DATE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO user (name, dateofbirth) VALUES
+INSERT INTO users (name, dateofbirth) VALUES
 ("John", "1990-03-12"),
 ("Jane", "1995-04-14"),
 ("Jack", "1999-12-13"),
 ("Jill", "2001-02-01"),
-("Joe", "2005-09-07"),
-("Jenny", "2009-04-27"),
+("Joe", "1945-09-07"),
+("Jenny", "1970-04-27"),
 ("James", "1980-05-28");
 
 
@@ -858,4 +858,4 @@ INSERT INTO rulesforfitnesslevel(level_id,changepercentage) VALUES
 (2,-2.5),
 (3,0),
 (4,2.5),
-(1,5)
+(5,5)

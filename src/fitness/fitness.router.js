@@ -12,7 +12,7 @@ router.get('/generateworkoutreportv3',Fitnesscontroller.renderGenerateWorkoutRep
 router.get('/getworkoutreport',Fitnesscontroller.renderWorkoutreportview)
        .post('/getworkoutreport',Fitnesscontroller.showWorkoutreport);
 
-router.get('/getweekvolume',Fitnesscontroller.rendergetweekvolume)
+router.get('/geteditableworkoutreport',Fitnesscontroller.rendergetweekvolume)
        .post('/getweekvolume',Fitnesscontroller.getweekvolume);
 router.post('/updateweekvalues',Fitnesscontroller.updateweekvalues);
 
