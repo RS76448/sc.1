@@ -1,9 +1,15 @@
 module.exports = function(sequelize, DataTypes) {
-    return sequelize.define('trainingzones', {
+    const trainingzones= sequelize.define('trainingzones', {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true,
+        },
+        user_id:{
+            type: DataTypes.INTEGER,
+        },
+        date:{
+            type: DataTypes.DATE,
         },
         zone: {
             type: DataTypes.STRING(50),
@@ -32,9 +38,23 @@ module.exports = function(sequelize, DataTypes) {
         identifier:{
             type: DataTypes.STRING(50),
             allowNull: false,
+        },
+        fitnesslevel_id:{
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+        activity_id:{
+            type: DataTypes.INTEGER,
+            allowNull: false,
         }
     }, {
         timestamps: false,
-        tablename:"trainingzones"
+        tableName:"trainingzones"
     });
+    trainingzones.associate = function(models) {
+        trainingzones.belongsTo(models.users, { foreignKey: 'user_id', targetKey: 'id' });
+        trainingzones.belongsTo(models.levels, { foreignKey: 'fitnesslevel_id', targetKey: 'id' });
+        
+    };
+    return trainingzones;
 };

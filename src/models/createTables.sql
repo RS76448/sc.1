@@ -247,7 +247,7 @@ CREATE TABLE zones (
     offset_start INT NOT NULL,
     offset_end INT NOT NULL,
     level_id INT NOT NULL,
-   
+    
     FOREIGN KEY (activity_id) REFERENCES activites(id),
     FOREIGN KEY (level_id) REFERENCES lelel(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -616,14 +616,19 @@ CREATE TABLE WorkoutSchedule (
 );
 
 
-CREATE TABLE TrainingZones (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+CREATE TABLE trainingzones (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    user_id INTEGER,
+    date DATE,
     zone VARCHAR(50) NOT NULL,
     zone_name VARCHAR(255) NOT NULL,
     offset_start DECIMAL(10, 3) NOT NULL,
     offset_end DECIMAL(10, 3) NOT NULL,
     pace_start_range DECIMAL(10, 3) NOT NULL,
-    pace_end_range DECIMAL(10, 3) NOT NULL
+    pace_end_range DECIMAL(10, 3) NOT NULL,
+    fitnesslevel_id INTEGER NOT NULL,
+    identifier VARCHAR(100) NOT NULL,
+    activity_id INTEGER NOT NULL
 );
 
 
@@ -805,3 +810,52 @@ VALUES
 (24, 25, 25, 20, 15, 32, 29, 20, 19, 0, 1, 'Goal X'), 
 (25, 20, 20, 20, 15, 50, 25, 25, 0, 0, 1, 'Goal X'), 
 (26, 17, 17, 17, 12, 41, 29, 29, 0, 0, 1, 'Goal X');
+
+
+CREATE TABLE `user`(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    dateofbirth DATE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO user (name, dateofbirth) VALUES
+("John", "1990-03-12"),
+("Jane", "1995-04-14"),
+("Jack", "1999-12-13"),
+("Jill", "2001-02-01"),
+("Joe", "2005-09-07"),
+("Jenny", "2009-04-27"),
+("James", "1980-05-28");
+
+
+//rules
+
+rules on age
+
+CREATE TABLE `rulesforage`(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    minage INTEGER(20),
+    maxage  INTEGER(20),
+    changepercentage DECIMAL(10,2)
+);
+
+INSERT INTO rulesforage(minage,maxage,changepercentage) VALUES 
+(18,30,0),
+(31,45,-2),
+(46,60,-3),
+(60,200,-4);
+
+
+CREATE TABLE `rulesforfitnesslevel`(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    level_id INTEGER(20),
+    changepercentage DECIMAL(10,2),
+    FOREIGN KEY (`level_id`) REFERENCES levels(id)
+);
+
+INSERT INTO rulesforfitnesslevel(level_id,changepercentage) VALUES 
+(1,-5),
+(2,-2.5),
+(3,0),
+(4,2.5),
+(1,5)

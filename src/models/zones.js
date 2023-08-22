@@ -5,6 +5,7 @@ module.exports = function(sequelize, DataTypes) {
             primaryKey: true,
             autoIncrement: true,
         },
+       
         activity_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -43,6 +44,7 @@ module.exports = function(sequelize, DataTypes) {
     zones.associate = function(models) {
         zones.belongsTo(models.activities, { foreignKey: 'activity_id', targetKey: 'id' });
         zones.belongsTo(models.levels, { foreignKey: 'level_id', targetKey: 'id' });
+        
     };
     return zones;
 };

@@ -38,10 +38,22 @@
                 <input type="date" class="form-control" name="selectedDate" id="startdate">
             </div>
         </div>
+         <div class="form-group row">
+            <label for="numDays" class="col-sm-3 col-form-label">Users:</label>
+            <div class="col-sm-6">
+                <select class="form-control" name="selectedOption" id="user" >
+                    <option value="null">Please select a value</option>
+                   <% users.map((e)=>{%>
+                          return `<option value="<%=e.id%>"><%=e.name%></option>`
+                          <% })%>
+                  
+                </select>
+            </div>
+        </div>
         <div class="form-group row">
             <label for="numDays" class="col-sm-3 col-form-label">Goal:</label>
             <div class="col-sm-6">
-                <select class="form-control" name="selectedOption" id="goalname" onchange="getdistance()">
+                <select class="form-control" name="selectedOption" id="goalname" >
                     <option value="null">Please select a value</option>
                    <% goalsArray.map((e)=>{%>
                           return `<option value="<%=e%>"><%=e%></option>`
@@ -174,6 +186,11 @@
         { data: 'quota', title: 'Day Quota' },
         { data: 'goal', title: 'Goal' },
         {data:"phase",title:"Phase"},
+        {data:"user_age",title:"user_age"},
+        {data:"agechage",title:"agechage"},
+        {data:"users_fitnesslevel",title:"users_fitnesslevel"},
+        {data:"levelchage",title:"levelchage"},
+
         { data: 'workoutname', title: 'workout' },
         {data:'subworkout',title:'Sub workout'}
      
@@ -187,11 +204,12 @@ function generatereport() {
             let comboselem = $("#combos").val();
             let phaseno = $("#phaseno").val();
             let goalname = $("#goalname").val();
+            let user=$("#user").val();
             let uid= $("#uid")
             let ch= $("#ch").val();
-            console.log("ch",ch)
+          
             let options = {
-                
+                useridentifier:user,
                 uid:ch,
                 startdate,
                 daysoptions,

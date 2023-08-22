@@ -25,7 +25,7 @@ function getNextCycleDate(inputDate, combosArray) {
     const dayIndex = inputDate.getDay();
     const sortedCombosArray = [...combosArray].map(ifsunday).sort((a, b) => a - b); // Ensure the days are sorted
     const nextCycleDayIndex = sortedCombosArray[0]
-    console.log("sortedCombosArray", sortedCombosArray)
+    // console.log("sortedCombosArray", sortedCombosArray)
     const daysUntilNextCycle = (sortedCombosArray[0] + 7 - dayIndex) % 7;
     
     const nextCycleDate = new Date(inputDate);
@@ -147,4 +147,21 @@ function getNextCycleDate(inputDate, combosArray) {
 
 //     return nextDate;
 // }
-module.exports = { getNextCycleDate }
+
+function getAgeFromDobForUser(dob) {
+  
+    const birthDate = new Date(dob);
+    const today = new Date();
+
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDifference = today.getMonth() - birthDate.getMonth();
+
+    // If the birthdate has not occurred this year yet, subtract 1 from the age.
+    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+    }
+
+    return age;
+}
+
+module.exports = { getNextCycleDate,getAgeFromDobForUser }

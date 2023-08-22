@@ -40,7 +40,9 @@ let models = [
     require("../models/TrainingZones.js"),
     require("../models/workoutdonebyuser.js"),
     require("../models/Goals.js"),
-
+    require("../models/users.js"),
+    require("../models/rulesforage.js"),
+    require("../models/rulesforfitnesslevel.js"),
 ]
 
 // Initialize models
@@ -58,5 +60,6 @@ Object.keys(db).forEach(key => {
 
 db.sequelize = sequelize
 db.Sequelize = Sequelize
-
+// sync the db
+sequelize.sync()
 module.exports = db
