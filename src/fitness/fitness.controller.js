@@ -643,7 +643,7 @@ renderGenerateWorkoutReportViewv3: async (req, res) => {
                     },
                     include: [db.levels]
                 });
-                console.log("changeInTotalForFitnessLevel?.fitnesslevel_id",changeInTotalForFitnessLevel)
+                // console.log("changeInTotalForFitnessLevel?.fitnesslevel_id",changeInTotalForFitnessLevel)
                userLevel=changeInTotalForFitnessLevel?.level?.level;
                 const changePercentage = changeInTotalForFitnessLevel?.changepercentage;
                 if (changePercentage) {
@@ -728,47 +728,55 @@ renderGenerateWorkoutReportViewv3: async (req, res) => {
     
     
         // if already working out for a while means have a entry for prior weeks
-        let currentweek = undefined;
+        let currentweek = 1;
+        let dataforweek= 1;
         let currentdate = undefined;
         let newgoal = undefined;
         let newstartday = getNextCycleDate(startdate, combosArray);
         console.log("randomStr", randomStr)
         if (randomStr != undefined && randomStr != null && randomStr != "") {
-            currentweek = await db.workout_schedule.max('week', {
+            prevWeek = await db.workout_schedule.max('week', {
                 where: {
                     identifier: randomStr
                 }
             });
-    
-            currentdate = await db.workout_schedule.max('date', {
+            console.log("prevWeek",prevWeek)
+            prevDate = await db.workout_schedule.max('date', {
                 where: {
                     identifier: randomStr,
-                    week: currentweek
+                    week: prevWeek
                 }
             })
+            console.log("prevDate",prevDate)
             let lastweekgoal = await db.workout_schedule.findOne({
                 where: {
                     identifier: randomStr,
-                    week: currentweek
+                    week: prevWeek,
+                    date:prevDate
                 }
             })
-            console.log("currentweek",currentweek)
-            currentdate = new Date(currentdate)
-            currentweek = parseInt(currentweek) + 1
+            console.log("lastweekgoal",lastweekgoal.goal)
+            currentdate = new Date(prevDate)
+            currentweek = parseInt(prevWeek) + 1
             oldgoal = lastweekgoal?.goal
+            console.log("prevWeek",prevWeek)
+            console.log("oldgoal",oldgoal)
+            console.log("goal",goal)
             if (oldgoal&&oldgoal === goal) {
     
                 newstartday = currentdate ? getNextCycleDate(currentdate, combosArray) : getNextCycleDate(startdate, combosArray);
                 currentweek = currentweek
+                dataforweek = currentweek
             } else {
-                newstartday = getNextCycleDate(startdate, combosArray);
-                currentweek = 1
-                randomStr = null
+                newstartday = currentdate ? getNextCycleDate(currentdate, combosArray) : getNextCycleDate(startdate, combosArray);
+                currentweek = currentweek
+                dataforweek = 1
+                
             }
     
         }
     
-    
+    console.log("dataforweek",dataforweek)
     
     
     
@@ -818,9 +826,8 @@ renderGenerateWorkoutReportViewv3: async (req, res) => {
     
         // console.log("before numberofoccurenceMutable",numberofoccurenceMutable)
         for (let i = 0; i < totaldays; i++) {
-            let weeknumber = currentweek ? currentweek : parseInt((i + 1) / 7) + 1// Use Math.floor for better readability
+            let weeknumber = dataforweek // Use Math.floor for better readability
     
-            console.log("weeknumber", weeknumber)
     
             let date = new Date(newstartday);
             date.setDate(date.getDate() + i);
@@ -834,7 +841,7 @@ renderGenerateWorkoutReportViewv3: async (req, res) => {
                 week.push({
                     newdate,
                     newday: maptotextualday[newday],
-                    newweek: parseInt(weeknumber)
+                    newweek: parseInt(currentweek)
                 });
             }
             if ((i + 1) % 7 === 0) {
@@ -896,7 +903,7 @@ renderGenerateWorkoutReportViewv3: async (req, res) => {
                     // return res.json(numberofoccurenceMutable)
                 }
     
-                alldates.push({ week: weeknumber, weekdates: [...week], totalquota });
+                alldates.push({ week: currentweek, weekdates: [...week], totalquota });
                 week = [];
             }
     
