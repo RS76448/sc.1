@@ -11,7 +11,8 @@ router.get('/generateworkoutreportv3',Fitnesscontroller.renderGenerateWorkoutRep
        .post('/generateworkoutreportv3',Fitnesscontroller.generatereportv3);
 router.get('/getworkoutreport',Fitnesscontroller.renderWorkoutreportview)
        .post('/getworkoutreport',Fitnesscontroller.showWorkoutreport);
-
+router.get('/plannedworkout/:workout_id/:sub_workout_id/:day_quota',Fitnesscontroller.renderPlannedWorkoutview)
+       
 router.get('/geteditableworkoutreport',Fitnesscontroller.rendergetweekvolume)
        .post('/getweekvolume',Fitnesscontroller.getweekvolume);
 router.post('/updateweekvalues',Fitnesscontroller.updateweekvalues);

@@ -1,4 +1,4 @@
-const base_url = "http://localhost:3000";
+const base_url = "http://localhost:8000";
 const daysoptions = require("../models/daysoptions")
 const runningquotas = require("../models/runningquotas")
 const db = require("../config/db")
@@ -876,6 +876,7 @@ renderGenerateWorkoutReportViewv3: async (req, res) => {
                     // let subactivityfortheday=sliceOccurences(numberofoccurenceMutable,phasenofortheweek.phase,workoutnamespliceable[0]["index"])
     
                     day.quota = (totalquota * (weekdata[workoutmapping2[desiganatedworkoutfortheday]] / 100)).toFixed(2) + ' ' + unitofexersice
+                    day.quotawithoutunit = (totalquota * (weekdata[workoutmapping2[desiganatedworkoutfortheday]] / 100)).toFixed(2)
                     //  console.log("index of loop i,index",i,index)
                     day.phase = subactivityfortheday.phasename.phase;
                     day.phaseid = subactivityfortheday.phase_id
@@ -890,7 +891,10 @@ renderGenerateWorkoutReportViewv3: async (req, res) => {
                     //just ot show
     
                     day.totalquota = totalquota.toFixed(2) + ' ' + unitofexersice
-    
+                    
+                    
+                    day.workout_id = subactivityfortheday.workout.id
+                    day.sub_workout_id = subactivityfortheday.subworkout.id
                     day.workoutname = subactivityfortheday.workout.workout
                     day.subworkout = subactivityfortheday.subworkout.subworkout
     
@@ -937,6 +941,39 @@ renderGenerateWorkoutReportViewv3: async (req, res) => {
         })
         return res.json({ alldates, randomstring });
     },
-    
+    renderPlannedWorkoutview:async (req, res) => {
+        const {workout_id,
+            sub_workout_id,
+            day_quota
+        }=req.params;
+        console.log("req.body",req.params)
+        const plannedworkout = await db.plannedworkout.findOne({
+            where: {
+                workout_id: parseInt(workout_id),
+                sub_workout_id: parseInt(sub_workout_id),
+            },
+            order: [
+                [db.sequelize.literal(`ABS(planned_quota - ${parseFloat(day_quota)})`), 'ASC']
+            ],
+            limit: 1,
+            include: [db.workout, db.subworkout]
+        });
+        
+        let datatosend={}
+        if(plannedworkout?.title){
+            datatosend={
+                title:plannedworkout.title,
+                workout:plannedworkout.workout.workout,
+                subworkout:plannedworkout.subworkout.subworkout,
+                planned_quota:plannedworkout.planned_quota,
+                description:plannedworkout.description,
+            }
+        }
+        console.log("datatosend",datatosend)
+        return res.render("plannedworkout.ejs", {
+            base_url,
+            plannedworkout:datatosend
+        })
+    }
    
 }

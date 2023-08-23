@@ -192,8 +192,15 @@
         {data:"levelchage",title:"levelchage"},
 
         { data: 'workoutname', title: 'workout' },
-        {data:'subworkout',title:'Sub workout'}
-     
+        {data:'subworkout',title:'Sub workout'},
+        { 
+        title: 'Planned Workout',
+        data: null,  // This indicates that we'll handle the data manually in the render function
+        render: function(data, type, row) {
+            const link= `<%=base_url%>/yofit/plannedworkout/${data.workout_id}/${data.sub_workout_id}/${data.quotawithoutunit}`
+           return `<a href="${link}">Planned Workout</a>`
+        }
+    },
     ]
 });
 

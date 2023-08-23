@@ -43,6 +43,7 @@ let models = [
     require("../models/users.js"),
     require("../models/rulesforage.js"),
     require("../models/rulesforfitnesslevel.js"),
+    require("../models/plannedWorkout.js"),
 ]
 
 // Initialize models

@@ -859,3 +859,82 @@ INSERT INTO rulesforfitnesslevel(level_id,changepercentage) VALUES
 (3,0),
 (4,2.5),
 (5,5)
+
+CREATE TABLE plannedworkout (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(255) NOT NULL,
+    
+    sub_workout_id INT NOT NULL,
+    workout_id INT NOT NULL,
+    planned_quota FLOAT NOT NULL,
+    description VARCHAR(2550) NOT NULL,
+    FOREIGN KEY (workout_id) REFERENCES workout(id),
+    FOREIGN KEY (sub_workout_id) REFERENCES subworkout(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+INSERT INTO plannedworkout (title,  workout_id,sub_workout_id, planned_quota, description) VALUES
+("first table", 1, 1, 4, "Long Workout"),
+("Second table", 1, 2, 6.2, "Medium Workout 1"),
+("Third table", 1, 3, 8.6, "Medium Workout 2"),
+("Fourth table", 1, 4, 5.2, "Short Workout 1"),
+("Fifth table", 1, 5, 2, "Short Workout 2"),
+("sixth table", 1, 6, 20, "Short Workout 2"),
+("seventh table",1,7.56,"seven times "),
+("eight talbe",1,8,9,"eight times is the table"),
+("nine table",1,9,21,"nine table is ok as well"),
+("ten table",1,10,11,"nine table is ok as well"),
+("eleven table",1,11,3,"nine table is ok as well")
+
+INSERT INTO plannedworkout (title,  workout_id,sub_workout_id, planned_quota, description) VALUES
+("first table", 2, 1, 7, "Long Workout"),
+("Second table", 2, 2, 9, "Medium Workout 1"),
+("Third table", 2, 3, 2.6, "Medium Workout 2"),
+("Fourth table", 2, 4, 4.2, "Short Workout 1"),
+("Fifth table", 2, 5, 74, "Short Workout 2")
+("sixth table", 1, 6, 20, "Short Workout 2"),
+("seventh table",1,7.56,"seven times "),
+("eight talbe",1,8,9,"eight times is the table"),
+("nine table",1,9,21,"nine table is ok as well"),
+("ten table",1,10,11,"nine table is ok as well"),
+("eleven table",1,11,3,"nine table is ok as well")
+
+
+INSERT INTO plannedworkout (title,  workout_id,sub_workout_id, planned_quota, description) VALUES
+("first table", 3, 1, 7, "Long Workout"),
+("Second table", 3, 2, 66, "Medium Workout 1"),
+("Third table", 3, 3, 8.2, "Medium Workout 2"),
+("Fourth table", 3, 4, 4, "Short Workout 1"),
+("Fifth table", 3, 5, 3, "Short Workout 2")
+("sixth table", 1, 6, 20, "Short Workout 2"),
+("seventh table",1,7.56,"seven times "),
+("eight talbe",1,8,9,"eight times is the table"),
+("nine table",1,9,21,"nine table is ok as well"),
+("ten table",1,10,11,"nine table is ok as well"),
+("eleven table",1,11,3,"nine table is ok as well")
+
+INSERT INTO plannedworkout (title,  workout_id,sub_workout_id, planned_quota, description) VALUES
+("first table", 4, 1, 5, "Long Workout"),
+("Second table", 4, 2, 11, "Medium Workout 1"),
+("Third table", 4, 3, 6, "Medium Workout 2"),
+("Fourth table", 4, 4, 21, "Short Workout 1"),
+("Fifth table", 4, 5, 25, "Short Workout 2")
+("sixth table", 1, 6, 20, "Short Workout 2"),
+("seventh table",1,7.56,"seven times "),
+("eight talbe",1,8,9,"eight times is the table"),
+("nine table",1,9,21,"nine table is ok as well"),
+("ten table",1,10,11,"nine table is ok as well"),
+("eleven table",1,11,3,"nine table is ok as well")
+
+INSERT INTO plannedworkout (title,  workout_id,sub_workout_id, planned_quota, description) VALUES
+("first table", 5, 1,41, "Long Workout"),
+("Second table", 5, 2, 5, "Medium Workout 1"),
+("Third table", 5, 3, 8, "Medium Workout 2"),
+("Fourth table", 5, 4, 2, "Short Workout 1"),
+("Fifth table", 5, 5, 3, "Short Workout 2"),
+("sixth table", 1, 6, 20, "Short Workout 2"),
+("seventh table",1,7.56,"seven times "),
+("eight talbe",1,8,9,"eight times is the table"),
+("nine table",1,9,21,"nine table is ok as well"),
+("ten table",1,10,11,"nine table is ok as well"),
+("eleven table",1,11,3,"nine table is ok as well")
