@@ -603,18 +603,27 @@ INSERT INTO phasesubactivity (phase_id, workout_id, subworkout_id) VALUES
 
 
 
-CREATE TABLE workout_schedule (
-    id INTEGER PRIMARY KEY AUTO_INCREMENT, 
-    week INTEGER NOT NULL,
-    date DATE NOT NULL,
-    day VARCHAR(10) NOT NULL,
-    total_quota_for_week VARCHAR(10) NOT NULL,
-    day_quota VARCHAR(10) NOT NULL,
-    phase VARCHAR(50) NOT NULL,
-    workout VARCHAR(50) NOT NULL,
-    sub_workout VARCHAR(50) NOT NULL,
-    process VARCHAR(50) NOT NULL
-);
+CREATE TABLE `workout_schedule` (
+  `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `week` int(11) NOT NULL,
+  `date` datetime NOT NULL,
+  `day` varchar(10) NOT NULL,
+  `total_quota_for_week` varchar(10) NOT NULL,
+  `day_quota` varchar(10) NOT NULL,
+  `phase_id` int(11) NOT NULL,
+  `phase_name` varchar(50) NOT NULL,
+  `workout` varchar(50) NOT NULL,
+  `sub_workout` varchar(50) NOT NULL,
+  `workout_id` int(11) NOT NULL,
+  `sub_workout_id` int(11) NOT NULL,
+  `numofrunningdays` int(11) NOT NULL,
+  `daysoption` int(11) NOT NULL,
+  `identifier` varchar(50) NOT NULL,
+  `actual_workout` int(11) DEFAULT 0,
+  `goal` varchar(50) DEFAULT NULL,
+  `process` varchar(50) DEFAULT NULL,
+  `unit` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
 CREATE TABLE trainingzones (

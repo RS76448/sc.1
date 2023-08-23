@@ -65,6 +65,15 @@ module.exports = function(sequelize, DataTypes) {
         process:{
             type: DataTypes.STRING(50),
             allowNull: true,
+        },
+        workout_id:{
+            type: DataTypes.INTEGER,
+        },
+        sub_workout_id:{
+            type: DataTypes.INTEGER,
+        },
+        unit:{
+            type: DataTypes.STRING(50),
         }
     }, {
         timestamps: false,

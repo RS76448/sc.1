@@ -194,7 +194,7 @@
         title: 'Planned Workout',
         data: null,  // This indicates that we'll handle the data manually in the render function
         render: function(data, type, row) {
-            const link= `/yofit/plannedworkout/${data.workout_id}/${data.sub_workout_id}/${data.quotawithoutunit}`
+            const link= `/yofit/plannedworkout/${data.workout_id}/${data.sub_workout_id}/${data.day_quota}`
            return `<a href="${link}">Planned Workout</a>`
         },
         
