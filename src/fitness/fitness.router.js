@@ -9,10 +9,16 @@ router.get('/generateworkoutreportv2',Fitnesscontroller.renderGenerateWorkoutRep
        .post('/generateworkoutreportv2',Fitnesscontroller.generatereportv2);
 router.get('/generateworkoutreportv3',Fitnesscontroller.renderGenerateWorkoutReportViewv3)
        .post('/generateworkoutreportv3',Fitnesscontroller.generatereportv3);
+router.get('/generateworkoutreportv4',Fitnesscontroller.renderGenerateWorkoutReportViewv4)
+       .post('/generateworkoutreportv4',Fitnesscontroller.generatereportv4);
 router.get('/getworkoutreport',Fitnesscontroller.renderWorkoutreportview)
        .post('/getworkoutreport',Fitnesscontroller.showWorkoutreport);
 router.get('/plannedworkout/:workout_id/:sub_workout_id/:day_quota',Fitnesscontroller.renderPlannedWorkoutview)
-       
+router.get("/addmanualworkout/:id",Fitnesscontroller.addManualWorkout)
+       .post("/addmanualworkout",Fitnesscontroller.addManualWorkoutPost)
+
+
+
 router.get('/geteditableworkoutreport',Fitnesscontroller.rendergetweekvolume)
        .post('/getweekvolume',Fitnesscontroller.getweekvolume);
 router.post('/updateweekvalues',Fitnesscontroller.updateweekvalues);

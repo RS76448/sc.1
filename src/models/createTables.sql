@@ -603,8 +603,8 @@ INSERT INTO phasesubactivity (phase_id, workout_id, subworkout_id) VALUES
 
 
 
-CREATE TABLE WorkoutSchedule (
-    id INTEGER PRIMARY KEY AUTOINCREMENT, 
+CREATE TABLE workout_schedule (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT, 
     week INTEGER NOT NULL,
     date DATE NOT NULL,
     day VARCHAR(10) NOT NULL,
@@ -612,7 +612,8 @@ CREATE TABLE WorkoutSchedule (
     day_quota VARCHAR(10) NOT NULL,
     phase VARCHAR(50) NOT NULL,
     workout VARCHAR(50) NOT NULL,
-    sub_workout VARCHAR(50) NOT NULL
+    sub_workout VARCHAR(50) NOT NULL,
+    process VARCHAR(50) NOT NULL
 );
 
 
