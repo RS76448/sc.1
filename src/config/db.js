@@ -9,7 +9,7 @@ var db = {}
 //     logging: false
 // });
 
-const sequelize = new Sequelize('running_schedule', 'root', 'Fitnessapp#121', {
+const sequelize = new Sequelize('fitness2', 'root', 'Fitnessapp#121', {
     host: '0.0.0.0',
     port: 3306,
     dialect: 'mysql',
@@ -44,6 +44,7 @@ let models = [
     require("../models/rulesforage.js"),
     require("../models/rulesforfitnesslevel.js"),
     require("../models/plannedWorkout.js"),
+    require("../models/columnworkoutmapping.js")
 ]
 
 // Initialize models

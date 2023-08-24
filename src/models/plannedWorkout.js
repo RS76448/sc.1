@@ -9,8 +9,8 @@ module.exports=(sequelize,DataTypes)=>{
             type:DataTypes.STRING,
             allowNull:false
         },
-        workout_id:{
-            type:DataTypes.INTEGER,
+        workout:{
+            type:DataTypes.STRING,
             allowNull:false
         },
         sub_workout_id:{
@@ -32,7 +32,7 @@ module.exports=(sequelize,DataTypes)=>{
     })
     plannedWorkout.associate = function(models) {{
         plannedWorkout.belongsTo(models.subworkout, { foreignKey: 'sub_workout_id', targetKey: 'id' });
-        plannedWorkout.belongsTo(models.workout, { foreignKey: 'workout_id', targetKey: 'id' });
+        
     }};
     return plannedWorkout
 }

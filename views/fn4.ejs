@@ -32,6 +32,18 @@
                 <input type="text" class="form-control"  id="ch" value=""/>
             </div>
         </div>
+        <div class="form-group row">
+            <label for="numDays" class="col-sm-3 col-form-label">Activities:</label>
+            <div class="col-sm-6">
+                <select class="form-control" name="selectedOption" id="activity_id" onchange="fetchgoals()" >
+                    <option value="null">Please select a value</option>
+                   <% activities.map((e)=>{%>
+                          return `<option value="<%=e.id%>"><%=e.activity_name%></option>`
+                          <% })%>
+                  
+                </select>
+            </div>
+        </div>
         <div class="form-group row mt-4">
             <label for="datePicker" class="col-sm-3 col-form-label">Start Date:</label>
             <div class="col-sm-6">
@@ -55,9 +67,7 @@
             <div class="col-sm-6">
                 <select class="form-control" name="selectedOption" id="goalname" >
                     <option value="null">Please select a value</option>
-                   <% goalsArray.map((e)=>{%>
-                          return `<option value="<%=e%>"><%=e%></option>`
-                          <% })%>
+                  
                   
                 </select>
             </div>
@@ -194,7 +204,7 @@
         title: 'Planned Workout',
         data: null,  // This indicates that we'll handle the data manually in the render function
         render: function(data, type, row) {
-            const link= `/yofit/plannedworkout/${data.workout_id}/${data.sub_workout_id}/${data.day_quota}`
+            const link= `/yofit/plannedworkout/${data.workout}/${data.sub_workout_id}/${data.day_quota}`
            return `<a href="${link}">Planned Workout</a>`
         },
         
@@ -227,7 +237,7 @@ function generatereport() {
             let user=$("#user").val();
             let uid= $("#uid")
             let ch= $("#ch").val();
-          
+            let activity_id= $("#activity_id").val();
             let options = {
                 useridentifier:user,
                 uid:ch,
@@ -235,7 +245,8 @@ function generatereport() {
                 daysoptions,
                 comboselem,
                 phaseno,
-                goal:goalname
+                goal:goalname,
+                activity_id:activity_id
             }
             console.log("options",options)
             const requestOptions = {
@@ -263,10 +274,11 @@ function generatereport() {
         function fetchoptions() {
             let optionvalue = $("#daysoptions").val();
             let comboselem = $("#combos");
+            let activity_id= $("#activity_id").val();
             // clear prev combos
 
             console.log(optionvalue)
-            fetch(`<%base_url%>/yofit/fetchoptions/${optionvalue}`)
+            fetch(`<%base_url%>/yofit/fetchoptions/${optionvalue}/${activity_id}`)
                 .then(res => res.json())
                 .then((data) => {
                     comboselem.empty()
@@ -290,18 +302,42 @@ function generatereport() {
             let optionvalue = $("#daysoptions").val();
             let comboselem = $("#combos").val();
             let numofdays = $("#daysoptions").val();
+            let activity_id= $("#activity_id").val();
             // clear prev combos
             // alert("comboselem: " + comboselem + ", optionvalue: " + optionvalue);
 
 
             console.log(optionvalue)
-            fetch(`<%base_url%>/yofit/fetchdaysoptionvalue/${comboselem}/${numofdays}`)
+            fetch(`<%base_url%>/yofit/fetchdaysoptionvalue/${comboselem}/${numofdays}/${activity_id}`)
                 .then(res => res.json())
                 .then((data) => {
                 //    console.log(data)
                 //    console.log(data.value)
                 let text=`**${data.value}**`;
                     $('#optionsvalue').html(data.value);
+                })
+        }
+
+        function fetchgoals(){
+            const activity_id= $("#activity_id").val();
+            const goalname= $("#goalname");
+            fetch(`<%base_url%>/yofit/fetchgoalsbyactivityid/${activity_id}`)
+                .then(res => res.json())
+                .then((data) => {
+                    goalname.empty()
+                    data?.goals?.map((option,index) => {
+
+                        console.log(option)
+                        //set initial option value to empty
+                        if(index == 0){
+                            let newOption = `<option value="">Select</option>`;
+                            // Append the new option to the second select element
+                            goalname.append(newOption);
+                        }
+                        let newOption = `<option value="${option.goal}">${option.goal}</option>`;
+                        // Append the new option to the second select element
+                        goalname.append(newOption);
+                    })
                 })
         }
     </script>

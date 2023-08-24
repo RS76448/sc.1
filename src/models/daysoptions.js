@@ -81,6 +81,9 @@ module.exports = function(sequelize, DataTypes) {
           dayscode: {
             type: DataTypes.STRING(50),
           },
+          activities:{
+            type: DataTypes.STRING(50)
+          }
         }, {
           timestamps: false,
         });

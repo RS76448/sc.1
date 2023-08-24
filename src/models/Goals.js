@@ -7,39 +7,59 @@ module.exports = function(sequelize, DataTypes) {
 			allowNull: false,
 			primaryKey: true
 		},
-		'5_days': {
+		'fivedays': {
 			type: DataTypes.INTEGER,
 			allowNull: false
 		},
-		'4_days': {
+		'fourdays': {
 			type: DataTypes.INTEGER,
 			allowNull: false
 		},
-		'3_days': {
+		'threedays': {
 			type: DataTypes.INTEGER,
 			allowNull: false
 		},
-		'2_days': {
+		'twodays': {
 			type: DataTypes.INTEGER,
 			allowNull: false
 		},
-		long_workout: {
+		'onedays': {
+			type: DataTypes.INTEGER,
+			allowNull: false
+		},
+		'sixdays': {
+			type: DataTypes.INTEGER,
+			allowNull: false
+		},
+		'sevendays': {
+			type: DataTypes.INTEGER,
+			allowNull: false
+		},
+		first: {
 			type: DataTypes.DECIMAL(5, 2),
 			allowNull: false
 		},
-		medium_workout_1: {
+		second: {
 			type: DataTypes.DECIMAL(5, 2),
 			allowNull: false
 		},
-		medium_workout_2: {
+		third: {
 			type: DataTypes.DECIMAL(5, 2),
 			allowNull: false
 		},
-		short_workout_1: {
+		fourth: {
 			type: DataTypes.DECIMAL(5, 2),
 			allowNull: false
 		},
-		short_workout_2: {
+		fifth: {
+			type: DataTypes.DECIMAL(5, 2),
+			allowNull: false
+		},
+		sixth: {
+			type: DataTypes.DECIMAL(5, 2),
+			allowNull: false
+		},
+		seventh: {
 			type: DataTypes.DECIMAL(5, 2),
 			allowNull: false
 		},

@@ -13,18 +13,19 @@ router.get('/generateworkoutreportv4',Fitnesscontroller.renderGenerateWorkoutRep
        .post('/generateworkoutreportv4',Fitnesscontroller.generatereportv4);
 router.get('/getworkoutreport',Fitnesscontroller.renderWorkoutreportview)
        .post('/getworkoutreport',Fitnesscontroller.showWorkoutreport);
-router.get('/plannedworkout/:workout_id/:sub_workout_id/:day_quota',Fitnesscontroller.renderPlannedWorkoutview)
+router.get('/plannedworkout/:workout/:sub_workout_id/:day_quota',Fitnesscontroller.renderPlannedWorkoutview)
 router.get("/addmanualworkout/:id",Fitnesscontroller.addManualWorkout)
        .post("/addmanualworkout",Fitnesscontroller.addManualWorkoutPost)
 
+router.get("/fetchgoalsbyactivityid/:activity_id",Fitnesscontroller.fetchgoalsbyactivityid)
 
 
 router.get('/geteditableworkoutreport',Fitnesscontroller.rendergetweekvolume)
        .post('/getweekvolume',Fitnesscontroller.getweekvolume);
 router.post('/updateweekvalues',Fitnesscontroller.updateweekvalues);
 
-router.get('/fetchoptions/:days',Fitnesscontroller.fetchoptions)
-router.get('/fetchdaysoptionvalue/:options/:numofdays',Fitnesscontroller.fetchdaysoptionvalue)
+router.get('/fetchoptions/:days/:activity_id',Fitnesscontroller.fetchoptions)
+router.get('/fetchdaysoptionvalue/:options/:numofdays/:activity_id',Fitnesscontroller.fetchdaysoptionvalue)
 router.get('/fetchactivitylevel/:activity_id/:time/:distance',Fitnesscontroller.fetchactivitylevel)
 
 

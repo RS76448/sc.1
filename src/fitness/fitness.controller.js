@@ -145,10 +145,11 @@ module.exports = {
     },
 
     fetchoptions: async (req, res) => {
-        const numofdays = parseInt(req.params.days)
+        const {days,activity_id}=req.params;
+        const numofdays = parseInt(days)
         const daysoptionsfromdb = await db.days_options.sync({ alter: true })
             .then(() => {
-                return db.days_options.findAll({ where: { run_days_per_week: numofdays } })
+                return db.days_options.findAll({ where: { run_days_per_week: numofdays,activities:activity_id } })
             })
 
 
@@ -164,7 +165,7 @@ module.exports = {
         return res.json({ datatosend })
     },
     fetchdaysoptionvalue: async (req, res) => {
-        const daysoptions = await db.days_options.findOne({ where: { run_days_per_week: req.params.numofdays,options:parseInt(req.params.options) } })
+        const daysoptions = await db.days_options.findOne({ where: { run_days_per_week: req.params.numofdays,options:parseInt(req.params.options),activities:req.params.activity_id } })
         const value="Monday-" + daysoptions.monday + " Tuesday-" + daysoptions.tuesday + " Wednesday-" + daysoptions.wednesday + " Thursday-" + daysoptions.thursday + " Friday-" + daysoptions.friday + " Saturday-" + daysoptions.saturday+" Sunday-"+daysoptions.sunday
         return res.json({ value })
     },
@@ -942,28 +943,29 @@ renderGenerateWorkoutReportViewv3: async (req, res) => {
         return res.json({ alldates, randomstring });
     },
     renderPlannedWorkoutview:async (req, res) => {
-        const {workout_id,
+        const {
+            workout,
             sub_workout_id,
             day_quota
         }=req.params;
         console.log("req.body",req.params)
         const plannedworkout = await db.plannedworkout.findOne({
             where: {
-                workout_id: parseInt(workout_id),
+                workout: workout,
                 sub_workout_id: parseInt(sub_workout_id),
             },
             order: [
                 [db.sequelize.literal(`ABS(planned_quota - ${parseFloat(day_quota)})`), 'ASC']
             ],
             limit: 1,
-            include: [db.workout, db.subworkout]
+            include: [ db.subworkout]
         });
         
         let datatosend={}
         if(plannedworkout?.title){
             datatosend={
                 title:plannedworkout.title,
-                workout:plannedworkout.workout.workout,
+                workout:plannedworkout.workout,
                 subworkout:plannedworkout.subworkout.subworkout,
                 planned_quota:plannedworkout.planned_quota,
                 description:plannedworkout.description,
@@ -982,20 +984,35 @@ renderGenerateWorkoutReportViewv3: async (req, res) => {
         const users=await db.users.sync().then(()=>{
             return db.users.findAll();
         })
+        const activities = await db.activities.findAll();
         // Extracting the distinct values into an array
-        const goalsArray = distinctGoals.map(item => item.dataValues.goal);
-        console.log("goalsarray",goalsArray)
+        
+       
             return res.render("fn4.ejs", {
                 base_url,
-                goalsArray,
-                users
+               
+                users,
+                activities
             })
         },
+        fetchgoalsbyactivityid:async (req, res) => {
+            const {activity_id}=req.params;
+            const goals=await db.goals.findAll({
+                where:{
+                    activity_id:activity_id
+                },
+                attributes: [[db.Sequelize.fn('DISTINCT', db.Sequelize.col('goal')), 'goal']]
+            })
+            const onlygoals=goals.map(e=>e.goal)
+            
+            return res.json({goals:goals})
+        },
         generatereportv4: async (req, res) => {
-            const { startdate, daysoptions, comboselem, phaseno, goal, uid, useridentifier } = req.body;
-            
-            const activity_id = 1;
-            
+            const { startdate, daysoptions, comboselem, phaseno, goal, uid, useridentifier,activity_id } = req.body;
+         
+
+           
+           
             let changeintotalpercentageforage = 0;
             let changeintotalpercentageforfitnesslevel = 0;
             // 1st rule
@@ -1066,21 +1083,33 @@ renderGenerateWorkoutReportViewv3: async (req, res) => {
         
             let randomStr = uid;
             const dayscombo = await db.days_options.sync().then(() => {
-                return db.days_options.findOne({ where: { run_days_per_week: parseInt(daysoptions), options: parseInt(comboselem) } })
+                return db.days_options.findOne({ where: { run_days_per_week: parseInt(daysoptions), options: parseInt(comboselem) ,activities:activity_id} })
             })
-        
+            // console.log("days",dayscombo)
             const daysoptionsmapping = {
-                2: "2_days",
-                3: "3_days",
-                4: "4_days",
-                5: "5_days",
+                2: "twodays",
+                3: "threedays",
+                4: "fourdays",
+                5: "fivedays",
+                6: "sixdays",
+                7: "sevendays",
+                1: "oneday"
             }
-        
+            const exercisecolumnmapping={
+                1:"first",
+                2:"second",
+                3:"third",
+                4:"fourth",
+                5:"fifth",
+                6:"sixth",
+                7:"seventh"
+            }
             const workouts = await db.days_options.sync().then(async () => {
                 return db.days_options.findOne({
                     where: {
                         run_days_per_week: parseInt(daysoptions),
-                        options: parseInt(comboselem)
+                        options: parseInt(comboselem),
+                        activities:activity_id+''
         
                     }
                 })
@@ -1103,15 +1132,21 @@ renderGenerateWorkoutReportViewv3: async (req, res) => {
                 { index: 6, value: workouts.friday, day: "Friday" },
                 { index: 7, value: workouts.saturday, day: "Saturday" },
             ]
+            // const workoutmapping2 ={} 
+            // exercisecolumnmapping.map(e=>{
+                
+            //        workoutmapping2[e.workout]=e.columnname
+                
+            // })
+           
+            // const workoutmapping2 = {
+            //     "Long Workout": "long_workout",
+            //     "Medium Workout 1": "medium_workout_1",
+            //     "Medium Workout 2": "medium_workout_2",
+            //     "Short Workout 1": "short_workout_1",
+            //     "Short Workout 2": "short_workout_2",
         
-            const workoutmapping2 = {
-                "Long Workout": "long_workout",
-                "Medium Workout 1": "medium_workout_1",
-                "Medium Workout 2": "medium_workout_2",
-                "Short Workout 1": "short_workout_1",
-                "Short Workout 2": "short_workout_2",
-        
-            }
+            // }
         
             const combosArray = dayscombo.dayscode.split("").map(e => parseInt(e));
             // console.log("combosArray",combosArray)
@@ -1192,7 +1227,9 @@ renderGenerateWorkoutReportViewv3: async (req, res) => {
         
             const subactivity = await db.phasesubactivity.sync().then(() => {
                 return db.phasesubactivity.findAll(
-                    {
+                    {   where:{
+                        activities:activity_id+''
+                    },
                         include: [db.subworkout, db.workout, db.phasename]
                     }
                 )
@@ -1252,38 +1289,41 @@ renderGenerateWorkoutReportViewv3: async (req, res) => {
                     });
                 }
                 if ((i + 1) % 7 === 0) {
-                    const phasenofortheweek = await db.phase.sync().then(() => {
-        
-                        return db.phase.findOne({ where: { phaseno: parseInt(phaseno), week: weeknumber } })
-                    })
-        
+                    const phasenofortheweek = await db.phase.findOne({ where: { phaseno: parseInt(phaseno), week: weeknumber,activities:activity_id+'' } })
+                    // console.log("phasenofortheweek",phasenofortheweek)
                     let weekdata = await db.goals.findOne({ where: { week: weeknumber, goal: goal } })
-        
+                   
                     let totalquota = weekdata[daysoptionsmapping[daysoptions]]
+                   
                     //1 st rule base on age
                     totalquota = totalquota + (totalquota * (changeintotalpercentageforage / 100)) + ((totalquota * (changeintotalpercentageforfitnesslevel / 100)))
-        
+                    
                     let newweek = []
                     let workoutnamespliceable = workoutnamemapping.slice();
+                   
                     for (index = 0; index < week.length; index++) {
                         const day = week[index]
         
-        
+                       
         
                         let occurance = numberofoccurenceMutable.find(e => e.e == phasenofortheweek.phase)
-                        let desiganatedworkoutfortheday = workoutnamespliceable.find(d => d.day == day.newday)["value"]
+                        // return res.json(occurance)
+                        // let desiganatedworkoutfortheday = workoutnamespliceable.find(d => d.day == day.newday)["value"]
+                        // return res.json(weekdata)
                         let subactivityfortheday;
-                        let indexofacitivity = occurance.index.findIndex(e => e.workout.workout == desiganatedworkoutfortheday)
-        
+                        let indexofacitivity = 0
+                        // console.log("indexofacitivity",indexofacitivity)
                         subactivityfortheday = occurance.index[indexofacitivity]
                         if (indexofacitivity == -1 || indexofacitivity == undefined) {
                             return res.json({combosArray,desiganatedworkoutfortheday, indexofacitivity, occurance, day, weeknumber, phase: phasenofortheweek.phase, indexofday: index })
                         }
         
                         // let subactivityfortheday=sliceOccurences(numberofoccurenceMutable,phasenofortheweek.phase,workoutnamespliceable[0]["index"])
-        
-                        day.quota = (totalquota * (weekdata[workoutmapping2[desiganatedworkoutfortheday]] / 100)).toFixed(2) + ' ' + unitofexersice
-                        day.quotawithoutunit = (totalquota * (weekdata[workoutmapping2[desiganatedworkoutfortheday]] / 100)).toFixed(2)
+                        console.log("weekdata[exercisecolumnmapping[index+1]",weekdata[exercisecolumnmapping[index+1]])
+                        console.log("weekdata",weekdata)
+                        // console.log("weekdata[workoutmapping2[desiganatedworkoutfortheday]",weekdata[workoutmapping2[desiganatedworkoutfortheday]])
+                        day.quota = (totalquota * (weekdata[exercisecolumnmapping[index+1]] / 100)).toFixed(2) + ' ' + unitofexersice
+                        day.quotawithoutunit = (totalquota * (weekdata[exercisecolumnmapping[index+1]] / 100)).toFixed(2)
                         //  console.log("index of loop i,index",i,index)
                         day.phase = subactivityfortheday.phasename.phase;
                         day.phaseid = subactivityfortheday.phase_id
@@ -1291,24 +1331,25 @@ renderGenerateWorkoutReportViewv3: async (req, res) => {
         
         
                         // just to show
-                        day.user_age = usersAge
-                        day.agechage = changeintotalpercentageforage
-                        day.users_fitnesslevel = userLevel?userLevel : "not set"
-                        day.levelchage = changeintotalpercentageforfitnesslevel
+                        // day.user_age = usersAge
+                        // day.agechage = changeintotalpercentageforage
+                        // day.users_fitnesslevel = userLevel?userLevel : "not set"
+                        // day.levelchage = changeintotalpercentageforfitnesslevel
                         //just ot show
         
                         day.totalquota = totalquota.toFixed(2) + ' ' + unitofexersice
                         
                         
-                        day.workout_id = subactivityfortheday.workout.id
+                       
                         day.sub_workout_id = subactivityfortheday.subworkout.id
-                        day.workoutname = subactivityfortheday.workout.workout
+                        console.log("day.newday",day.newday)
+                        day.workoutname =workoutnamemapping.find(e=>e.day==day.newday).value
                         day.subworkout = subactivityfortheday.subworkout.subworkout
         
         
                         newweek.push(day)
         
-                        sliceOccurences(numberofoccurenceMutable, phasenofortheweek.phase, indexofacitivity, desiganatedworkoutfortheday)
+                        sliceOccurences(numberofoccurenceMutable, phasenofortheweek.phase, 0)
                         // workoutnamespliceable.splice(0,1)
         
                         // return res.json(numberofoccurenceMutable)
@@ -1342,7 +1383,7 @@ renderGenerateWorkoutReportViewv3: async (req, res) => {
                             phase_id: newday.phaseid,
                             phase_name: newday.phase,
                             workout: newday.workoutname,
-                            workout_id: newday.workout_id,
+                          
                             sub_workout: newday.subworkout,
                             sub_workout_id: newday.sub_workout_id,
                             goal: goal

@@ -38,6 +38,8 @@ password=Fitnessapp#121
 GRANT ALL PRIVILEGES ON running_schedule.* TO 'root'@'170.187.238.102';
 
 SHOW GRANTS FOR 'root'@'170.187.238.102';
+GRANT ALL PRIVILEGES ON fitness2.* TO 'fitnessapp'@'localhost';
+FLUSH PRIVILEGES;
 
 
 git add .

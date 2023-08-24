@@ -8,7 +8,7 @@ module.exports = function (sequelize, DataTypes) {
         phase: {
             type: DataTypes.STRING
         }
-
+    
 
     }, {
         timestamps: false,

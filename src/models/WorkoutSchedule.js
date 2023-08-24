@@ -66,9 +66,7 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING(50),
             allowNull: true,
         },
-        workout_id:{
-            type: DataTypes.INTEGER,
-        },
+       
         sub_workout_id:{
             type: DataTypes.INTEGER,
         },

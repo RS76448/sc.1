@@ -14,6 +14,9 @@ module.exports = function(sequelize, DataTypes) {
 },
         phaseno: {
     type: DataTypes.INTEGER
+},
+activities:{
+    type: DataTypes.STRING
 }
     }, {
         timestamps: false,
