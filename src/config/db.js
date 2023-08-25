@@ -2,19 +2,24 @@ const Sequelize = require('sequelize')
 
 var db = {}
 
-// const sequelize = new Sequelize('fitness', 'root', '', {
-//     host: 'localhost',
-//     port: 3306,
-//     dialect: 'mysql',
-//     logging: false
-// });
-
-const sequelize = new Sequelize('fitness2', 'root', 'Fitnessapp#121', {
+let sequelize;
+if(process.env.NODE_ENV === 'development'){
+  sequelize = new Sequelize('fitness', 'root', '', {
+    host: 'localhost',
+    port: 3306,
+    dialect: 'mysql',
+    logging: false
+});
+}else if(process.env.NODE_ENV === 'production'){
+  sequelize = new Sequelize('fitness2', 'root', 'Fitnessapp#121', {
     host: '0.0.0.0',
     port: 3306,
     dialect: 'mysql',
     logging: false
 });
+}
+
+
 
 
 sequelize.authenticate()
@@ -44,7 +49,9 @@ let models = [
     require("../models/rulesforage.js"),
     require("../models/rulesforfitnesslevel.js"),
     require("../models/plannedWorkout.js"),
-    require("../models/columnworkoutmapping.js")
+    require("../models/columnworkoutmapping.js"),
+    require("../models/goalswithoutvolume.js"),
+    require("../models/workoutschedulewithoutvolume.js"),
 ]
 
 // Initialize models

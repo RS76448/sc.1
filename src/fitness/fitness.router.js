@@ -11,6 +11,8 @@ router.get('/generateworkoutreportv3',Fitnesscontroller.renderGenerateWorkoutRep
        .post('/generateworkoutreportv3',Fitnesscontroller.generatereportv3);
 router.get('/generateworkoutreportv4',Fitnesscontroller.renderGenerateWorkoutReportViewv4)
        .post('/generateworkoutreportv4',Fitnesscontroller.generatereportv4);
+router.get('/generateworkoutreportv5',Fitnesscontroller.renderGenerateWorkoutReportViewv5)
+.post('/generateworkoutreportv5',Fitnesscontroller.generatereportv5);
 router.get('/getworkoutreport',Fitnesscontroller.renderWorkoutreportview)
        .post('/getworkoutreport',Fitnesscontroller.showWorkoutreport);
 router.get('/plannedworkout/:workout/:sub_workout_id/:day_quota',Fitnesscontroller.renderPlannedWorkoutview)

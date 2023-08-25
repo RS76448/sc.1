@@ -230,6 +230,26 @@ INSERT INTO days_options (run_days_per_week, options, monday, tuesday, wednesday
 
 
 
+INSERT INTO days_options 
+(run_days_per_week, options, monday, tuesday, wednesday, thursday, friday, saturday, sunday, dayscode, activities) 
+VALUES 
+(5, 1, 'Rest Day', 'Workout', 'Workout', 'Workout', 'Rest Day', 'Workout', 'Workout', '02346', '4'),
+(5, 2, 'Workout', 'Workout', 'Workout', 'Rest Day', 'Workout', 'Workout', 'Rest Day', '012356', '4'),
+(5, 3, 'Workout', 'Workout', 'Rest Day', 'Workout', 'Workout', 'Rest Day', 'Workout', '012456', '4'),
+(4, 1, 'Rest Day', 'Workout', 'Rest Day', 'Workout', 'Rest Day', 'Workout', 'Workout', '12346', '4'),
+(4, 2, 'Workout', 'Rest Day', 'Workout', 'Rest Day', 'Workout', 'Workout', 'Rest Day', '01356', '4'),
+(4, 3, 'Rest Day', 'Workout', 'Rest Day', 'Workout', 'Workout', 'Rest Day', 'Workout', '12346', '4'),
+(3, 1, 'Rest Day', 'Workout', 'Rest Day', 'Workout', 'Rest Day', 'Rest Day', 'Workout', '123', '4'),
+(3, 2, 'Rest Day', 'Workout', 'Rest Day', 'Workout', 'Rest Day', 'Workout', 'Rest Day', '1245', '4'),
+(3, 3, 'Rest Day', 'Rest Day', 'Workout', 'Rest Day', 'Workout', 'Rest Day', 'Workout', '034', '4'),
+(3, 4, 'Workout', 'Rest Day', 'Workout', 'Rest Day', 'Rest Day', 'Workout', 'Rest Day', '035', '4'),
+(3, 5, 'Rest Day', 'Workout', 'Rest Day', 'Rest Day', 'Workout', 'Rest Day', 'Workout', '145', '4'),
+(2, 1, 'Workout', 'Rest Day', 'Rest Day', 'Rest Day', 'Rest Day', 'Workout', 'Rest Day', '15', '4'),
+(2, 2, 'Rest Day', 'Rest Day', 'Workout', 'Rest Day', 'Rest Day', 'Rest Day', 'Workout', '03', '4'),
+(2, 3, 'Rest Day', 'Rest Day', 'Workout', 'Rest Day', 'Rest Day', 'Workout', 'Rest Day', '35', '4'),
+(2, 4, 'Rest Day', 'Workout', 'Rest Day', 'Rest Day', 'Rest Day', 'Rest Day', 'Workout', '14', '4'),
+(2, 5, 'Rest Day', 'Workout', 'Rest Day', 'Rest Day', 'Rest Day', 'Workout', 'Rest Day', '15', '4'),
+(2, 6, 'Rest Day', 'Workout', 'Rest Day', 'Rest Day', 'Workout', 'Rest Day', 'Rest Day', '45', '4');
 
 
 
@@ -1408,3 +1428,78 @@ INSERT INTO goals (`week`, `sevendays`, `sixdays`, `fivedays`, `fourdays`, `thre
 INSERT INTO goals (`week`, `sevendays`, `sixdays`, `fivedays`, `fourdays`, `threedays`, `twodays`, `onedays`, `first`, `second`, `third`, `fourth`, `fifth`, `sixth`, `seventh`, `activity_id`, `goal`) VALUES  (22, 0, 0, 330, 180, 105, 90, 45, 44, 24, 14, 12, 6, 0, 0, 2, '200K');
 INSERT INTO goals (`week`, `sevendays`, `sixdays`, `fivedays`, `fourdays`, `threedays`, `twodays`, `onedays`, `first`, `second`, `third`, `fourth`, `fifth`, `sixth`, `seventh`, `activity_id`, `goal`) VALUES  (23, 0, 0, 300, 180, 120, 90, 75, 39, 24, 16, 12, 10, 0, 0, 2, '200K');
 INSERT INTO goals (`week`, `sevendays`, `sixdays`, `fivedays`, `fourdays`, `threedays`, `twodays`, `onedays`, `first`, `second`, `third`, `fourth`, `fifth`, `sixth`, `seventh`, `activity_id`, `goal`) VALUES  (24, 0, 0, 330, 120, 75, 60, 0, 56, 21, 13, 10, 0, 0, 0, 2, '200K');
+
+
+CREATE TABLE daysenabled (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `day2` varchar(255) NOT NULL,
+  `enabled` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+
+INSERT INTO daysenabled (`id`, `day2`, `enabled`) VALUES
+(1, '2', 1),
+(2, '3', 1),
+(3, '4', 1),
+(4, '5', 1);
+
+
+CREATE TABLE durationenabled (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `duration` varchar(255) NOT NULL,
+  `enabled` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+
+INSERT INTO durationenabled (`id`, `duration`, `enabled`) VALUES
+(1, '30', 1),
+(2, '45', 1),
+(3, '90', 1);
+
+
+CREATE TABLE goalswithoutvolume (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  goal varchar(255) NOT NULL,
+    first varchar(255) NOT NULL,
+    second varchar(255) NOT NULL,
+    third varchar(255) NOT NULL,
+    fourth varchar(255) NOT NULL,
+    fifth varchar(255) NOT NULL,
+    sixth varchar(255) NOT NULL,
+    seventh varchar(255) NOT NULL,
+    activity_id int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=25 ;
+
+
+INSERT INTO goalswithoutvolume (activity_id,goal, first, second, third, fourth, fifth, sixth, seventh) VALUES 
+('1','Cycling Specific', 20, 20, 21, 20, 20, 'none', 'none'),
+('1','Cycling Specific', 20, 20, 21, 20, 20, 'none', 'none'),
+('1','Cycling Specific', 20, 20, 21, 20, 20, 'none', 'none'),
+('1','General Condtioning', 21, 21, 22, 20, 21, 'none', 'none'),
+('1','General Condtioning', 21, 21, 22, 20, 21, 'none', 'none'),
+('1','General Condtioning', 21, 21, 22, 20, 21, 'none', 'none'),
+('1','Running Specific', 20, 22, 21, 20, 20, 'none', 'none'),
+('1','Running Specific', 20, 22, 21, 20, 21, 'none', 'none'),
+('1','Running Specific', 20, 22, 21, 20, 22, 'none', 'none'),
+('1','Triathlon Specific', 22, 20, 21, 22, 20, 'none', 'none'),
+('1','Triathlon Specific', 22, 20, 21, 22, 20, 'none', 'none'),
+('1','Triathlon Specific', 22, 20, 21, 22, 20, 'none', 'none');
+
+
+
+
+CREATE TABLE workout_schedule_without_volume (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    week INT NOT NULL,
+    date DATE NOT NULL,
+    day VARCHAR(10) NOT NULL,
+   
+    workout VARCHAR(50) NOT NULL,
+    sub_workout VARCHAR(50) NOT NULL,
+    numofrunningdays INT NOT NULL,
+    daysoption INT NOT NULL,
+    identifier VARCHAR(50) NOT NULL,
+    
+    goal VARCHAR(50)
+);

@@ -7,7 +7,7 @@ sudo service nginx restart
  git pull origin main
  pm2 stop fitnessmodule
 pm2 start "npm start" --name fitnessmodule
- sequelize-auto -h <host> -d <database> -u <user> -x [password] -p [port]  --dialect [dialect] -c [/path/to/config] -o [/path/to/models]
+ sequelize-auto -h <host> -d <database> -u <user> -x [papmssword] -p [port]  --dialect [dialect] -c [/path/to/config] -o [/path/to/models]
  sequelize-auto -h db4free.net -d fitapp -u fitapp -x fitappfitapp -p 3306  --dialect mysql -c /home/rohit/Desktop/node/sofueled.1/src/models/sequelize-auto-settings.json -o /home/rohit/Desktop/node/sofueled.1/src/models
 git remote add origin https://github.com/RS76448/sc.1.git
 fitapp

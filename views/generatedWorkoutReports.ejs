@@ -152,8 +152,33 @@
         { data: 'week', title: 'Week' },
         { data: 'date', title: 'Date' },
         { data: 'day', title: 'Day' },
-        { data: 'total_quota_for_week', title: 'Total Quota for week' },
-        { data: 'day_quota', title: 'Day Quota' },
+       
+        { 
+        title: 'Total Quota for week',
+        data: null,  // This indicates that we'll handle the data manually in the render function
+        render: function(data, type, row) {
+            if (data.total_quota_for_week !== null && data.total_quota_for_week !== undefined && data.total_quota_for_week !== '' && data.total_quota_for_week !== 0) {
+                // return data.actual_workout
+                return data.total_quota_for_week;
+               
+            } else {
+                return `--`
+            }
+        }
+    },
+        { 
+        title: 'Day Quota',
+        data: null,  // This indicates that we'll handle the data manually in the render function
+        render: function(data, type, row) {
+            if (data.day_quota !== null && data.day_quota !== undefined && data.day_quota !== '' && data.day_quota !== 0) {
+                // return data.actual_workout
+                return data.day_quota;
+               
+            } else {
+                return `--`
+            }
+        }
+    },
         { 
         title: 'Goal',
         data: null,  // This indicates that we'll handle the data manually in the render function
@@ -167,7 +192,20 @@
             }
         }
     },
-        {data:"phase_name",title:"Phase"},
+    { 
+        title: 'Phase',
+        data: null,  // This indicates that we'll handle the data manually in the render function
+        render: function(data, type, row) {
+            if (data.phase_name !== null && data.phase_name !== undefined && data.phase_name !== '' && data.phase_name !== 0) {
+                // return data.actual_workout
+                return data.phase_name;
+               
+            } else {
+                return `--`
+            }
+        }
+    },
+       
         {data:"process",title:"Process(A/M)"},
         { data: 'workout', title: 'workout' },
         {data:'sub_workout',title:'Sub workout'},
