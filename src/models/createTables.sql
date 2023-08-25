@@ -1095,7 +1095,17 @@ CREATE TABLE plannedworkout (
     FOREIGN KEY (sub_workout_id) REFERENCES subworkout(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-
+CREATE TABLE plannedworkoutforyfc (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(255) NOT NULL,
+    
+    sub_workout_id INT NOT NULL,
+    workout VARCHAR(255) NOT NULL,
+   
+    description VARCHAR(2550) NOT NULL,
+   
+    FOREIGN KEY (sub_workout_id) REFERENCES subworkout(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 INSERT INTO plannedworkout (title,  workout,sub_workout_id, planned_quota, description) VALUES
 ("first table", "Long Workout", 1, 4, "Long Workout"),
 ("Second table", "Long Workout", 2, 6.2, "Medium Workout 1"),

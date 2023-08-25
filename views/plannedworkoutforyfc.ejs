@@ -22,25 +22,8 @@
 
 <body>
     <div class="container">
-        <h1 class="mt-4">Add Manual workout</h1>
+        <h1 class="mt-4">Planned Workout Report</h1>
        
-        <div class="form-group">
-            <label for="">SubWorkout</label>
-            <div class="col-sm-6">
-             <select class="form-control" name="subworkout" id="subworkout">
-                 <option value="null">Please select a value</option>
-                <% subworkouts.map((e)=>{%>
-                       return `<option value="<%=e.subworkout%>"><%=e.subworkout%></option>`
-                       <% })%>
-               
-             </select>
-         </div>
-         </div>
-         <div class="form-group row">
-            <div class="col-sm-9 offset-sm-3">
-                <button onclick="AddManualworkout()" class="btn btn-primary" id="generateButton">Add Manual workout</button>
-            </div>
-        </div>
         <table id="jsonTable" class="display">
             <thead>
                 <!-- Table header cells will be added here -->
@@ -114,66 +97,17 @@
 
         let dataTable = $('#jsonTable').DataTable({
     columns: [
-    { data: 'week', title: 'Week' },
-        { data: 'date', title: 'Date' },
-        { data: 'day', title: 'Day' },
-        { data: 'total_quota_for_week', title: 'Total Quota for week' },
-        { data: 'day_quota', title: 'Day Quota' },
-        { data: 'goal', title: 'Goal' },
-        {data:"phase_name",title:"Phase"},
-        {data:"process",title:"Process"},
-        {data:"identifier",title:"Identifier"},
-        { data: 'workout', title: 'workout' },
-        {data:'sub_workout',title:'Sub workout'}
+        { data: 'title', title: 'title' },
+        { data: 'workout', title: 'activity' },
+        { data: 'sub_workout', title: 'sub activity' },
+       
+        { data: 'description', title: 'description' },
        
     ]
 });
-const jsonData=JSON.parse(`<%-JSON.stringify(arrayofobject)%>`);
-console.log("jsonData",jsonData)
-jsonData.forEach(dateObj => {
-    dataTable.row.add(dateObj).draw();
-});
-
-
-
-
-function AddManualworkout(){
-   
-    const subworkout=$("#subworkout").val();
-    const id=jsonData[0].id;
-    const options={
-     
-        subworkout,
-        id
-    }
-    const requestOptions = {
-
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(options)
-    };
-    fetch(`<%base_url%>/yofit/addmanualworkout`, requestOptions)
-        .then(res => res.json())
-        .then((data) => {
-            console.log(data)
-            const jsonData = data
-            // somedata = Object.keys(jsonData).map(key => console.log(key))
-            // console.log(somedata)
-            // Initialize DataTables
-           if(jsonData.data){
-            dataTable.clear();
-            jsonData.data?.forEach(dateObj => {
-                dataTable.row.add(dateObj).draw();
-            });
-           }else{
-            alert("a manual exersice already exists")
-           }
-              
-
-     
-        })     
-            // Clear the existing table data
-}
+const jsonData=<%-JSON.stringify(plannedworkout)%>
+console.log(jsonData)
+dataTable.row.add(jsonData).draw();
     </script>
 </body>
 

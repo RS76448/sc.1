@@ -1470,7 +1470,7 @@ renderGenerateWorkoutReportViewv3: async (req, res) => {
                 unit:workoutbyid.unitofexersice,
                 phase_id:workoutbyid.phase_id,
                 phase_name:workoutbyid.phase_name,
-                workout:(workout),
+                workout:workoutbyid.workout,
                 sub_workout:(subworkout),
                 workout_id:workoutbyid.workout_id,
                 sub_workout_id:workoutbyid.sub_workout_id,
@@ -1487,7 +1487,104 @@ renderGenerateWorkoutReportViewv3: async (req, res) => {
             return res.json({message:"manual workout already added",data:finddayonworkoutschedule})
             // return res.json(finddayonworkoutschedule)
         },
-        
+        renderPlannedWorkoutviewforyfc:async (req, res) => {
+            const {
+                workout,
+                sub_workout_id,
+                day_quota
+            }=req.params;
+            console.log("req.body",req.params)
+            const plannedworkout = await db.plannedworkoutforyfc.findOne({
+                where: {
+                    workout: workout,
+                    sub_workout_id: parseInt(sub_workout_id),
+                },
+                include: [ db.subworkout]
+            });
+            
+            let datatosend={}
+            if(plannedworkout?.title){
+                datatosend={
+                    title:plannedworkout.title,
+                    workout:plannedworkout.workout,
+                    subworkout:plannedworkout.subworkout.subworkout,
+                    planned_quota:plannedworkout.planned_quota,
+                    description:plannedworkout.description,
+                }
+            }
+            console.log("datatosend",datatosend)
+            return res.render("plannedworkoutforyfc.ejs", {
+                base_url,
+                plannedworkout:datatosend
+            })
+        },
+      addManualWorkoutforyfc:async (req, res) => {
+                const allworkouts=await db.workout.findAll();
+                const subworkouts=await db.subworkout.findAll();
+                const finddayonworkoutschedule=await db.workout_schedule_without_volume.findOne({
+                    where:{
+                        id:req.params.id
+                    }
+                })
+                const manualworkout=await db.workout_schedule_without_volume.findAll({
+                    where:{
+                        identifier:finddayonworkoutschedule.identifier,
+                        week:finddayonworkoutschedule.week,
+                        date:finddayonworkoutschedule.date,
+                        process:"M"
+                    }
+                })
+               
+                const arrayofobject=[finddayonworkoutschedule,...manualworkout]
+                return res.render("addmanualworkoutforyfc.ejs", {
+                    base_url,
+                    arrayofobject,
+                    allworkouts,
+                    subworkouts
+                })
+            },
+            addManualWorkoutPostforyfc:async (req, res) => {
+                const { 
+                    subworkout,
+                    id}=req.body;
+                 console.log("req.body",req.body)
+                const workoutbyid=await db.workout_schedule_without_volume.findOne({
+                    where:{
+                        id:parseInt(id)
+                    }
+                })
+                const manualworkout=await db.workout_schedule_without_volume.findAll({
+                    where:{
+                        identifier:workoutbyid.identifier,
+                        week:workoutbyid.week,
+                        date:workoutbyid.date,
+                        process:"M"
+                    }
+                })
+                if(manualworkout.length>1){
+                    return res.json({message:"manual workout already added",data:null})
+                }
+                const manualschedultworkoutforday={
+                    week:workoutbyid.week,
+                    day:workoutbyid.day,
+                   
+                    workout:workoutbyid.workout,
+                    sub_workout:(subworkout),
+                   
+                    sub_workout_id:workoutbyid.sub_workout_id,
+                    goal:workoutbyid.goal,
+                    identifier:workoutbyid.identifier,
+                    date:new Date(workoutbyid.date),
+                    daysoption:workoutbyid.daysoption,
+                    numofrunningdays:workoutbyid.numofrunningdays,
+                    process:"M",
+                    
+                }
+                const newmanualworkout= await db.workout_schedule_without_volume.create(manualschedultworkoutforday);
+                const finddayonworkoutschedule=[workoutbyid,newmanualworkout]
+                return res.json({message:"manual workout already added",data:finddayonworkoutschedule})
+                // return res.json(finddayonworkoutschedule)
+            },
         renderGenerateWorkoutReportViewv5: async (req, res) => {
             const distinctGoals = await db.goals.findAll({
                 attributes: [[db.Sequelize.fn('DISTINCT', db.Sequelize.col('goal')), 'goal']]
@@ -1675,7 +1772,7 @@ renderGenerateWorkoutReportViewv3: async (req, res) => {
             const paramsforsavingtodb={
                 randomstring, alldates, comboselem, unitofexersice, goal,daysoptions
             }
-            const datatosend = activity_id!='4'?await fintnessModule.savedatatodb(paramsforsavingtodb):await fintnessModule.savenonvolumedatatodb(paramsforsavingtodb)
+            const datatosend = activity_id!='4'?await fintnessModule.savevolumedatatodb(paramsforsavingtodb):await fintnessModule.savenonvolumedatatodb(paramsforsavingtodb)
             return res.json({ alldates:datatosend, randomstring });
         },
         

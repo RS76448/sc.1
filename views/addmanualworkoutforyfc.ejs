@@ -23,7 +23,7 @@
 <body>
     <div class="container">
         <h1 class="mt-4">Add Manual workout</h1>
-       
+      
         <div class="form-group">
             <label for="">SubWorkout</label>
             <div class="col-sm-6">
@@ -117,10 +117,10 @@
     { data: 'week', title: 'Week' },
         { data: 'date', title: 'Date' },
         { data: 'day', title: 'Day' },
-        { data: 'total_quota_for_week', title: 'Total Quota for week' },
-        { data: 'day_quota', title: 'Day Quota' },
+        // { data: 'total_quota_for_week', title: 'Total Quota for week' },
+        // { data: 'day_quota', title: 'Day Quota' },
         { data: 'goal', title: 'Goal' },
-        {data:"phase_name",title:"Phase"},
+        // {data:"phase_name",title:"Phase"},
         {data:"process",title:"Process"},
         {data:"identifier",title:"Identifier"},
         { data: 'workout', title: 'workout' },
@@ -142,7 +142,7 @@ function AddManualworkout(){
     const subworkout=$("#subworkout").val();
     const id=jsonData[0].id;
     const options={
-     
+       
         subworkout,
         id
     }
@@ -152,7 +152,7 @@ function AddManualworkout(){
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(options)
     };
-    fetch(`<%base_url%>/yofit/addmanualworkout`, requestOptions)
+    fetch(`<%base_url%>/yofit/addmanualworkoutforyfc`, requestOptions)
         .then(res => res.json())
         .then((data) => {
             console.log(data)

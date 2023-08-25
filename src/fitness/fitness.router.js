@@ -18,6 +18,11 @@ router.get('/getworkoutreport',Fitnesscontroller.renderWorkoutreportview)
 router.get('/plannedworkout/:workout/:sub_workout_id/:day_quota',Fitnesscontroller.renderPlannedWorkoutview)
 router.get("/addmanualworkout/:id",Fitnesscontroller.addManualWorkout)
        .post("/addmanualworkout",Fitnesscontroller.addManualWorkoutPost)
+// for ycf
+router.get('/plannedworkoutforyfc/:workout/:sub_workout_id',Fitnesscontroller.renderPlannedWorkoutviewforyfc)
+router.get("/addmanualworkoutforyfc/:id",Fitnesscontroller.addManualWorkoutforyfc)
+       .post("/addmanualworkoutforyfc",Fitnesscontroller.addManualWorkoutPostforyfc)
+
 
 router.get("/fetchgoalsbyactivityid/:activity_id",Fitnesscontroller.fetchgoalsbyactivityid)
 

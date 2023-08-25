@@ -52,6 +52,7 @@ let models = [
     require("../models/columnworkoutmapping.js"),
     require("../models/goalswithoutvolume.js"),
     require("../models/workoutschedulewithoutvolume.js"),
+    require("../models/plannedworkoutforyfc.js")
 ]
 
 // Initialize models
